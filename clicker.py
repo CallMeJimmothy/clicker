@@ -6,12 +6,12 @@ pygame.font.init()
 
 #Fun fact, the reason hysteria is often associated with women is because in the time of the ancient Greeks, it was believed to be caused by the uterus
 
-Width, Height = 1200, 800
+WIDTH, HEIGHT = 1200, 800
 FPS = 120
-WIN = pygame.display.set_mode((Width, Height))
+WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("CLICKIE")
 score = 0
-new_score = 0
+new_score = 1
 win_menu = "Start Screen"
 
 BLACK, WHITE = (0, 0, 0), (255, 255, 255)
@@ -35,7 +35,7 @@ upgrades = {
 }
 
 def draw_clicker(mouse_pos, mouse_pressed):
-    clicker_rect = pygame.Rect(Width // 2 - 100, Height // 2 - 100, 200, 200)
+    clicker_rect = pygame.Rect(WIDTH // 2 - 100, HEIGHT // 2 - 100, 200, 200)
     
     if clicker_rect.collidepoint(mouse_pos):
         if mouse_pressed:
@@ -53,22 +53,19 @@ def draw_window(win_menu, mouse_pos, mouse_pressed):
     
     if win_menu == "Start Screen":
         start_text = font.render("Click to Start", True, WHITE)
-        WIN.blit(start_text, (Width // 2 - start_text.get_width() // 2, 
-                            Height // 2 - start_text.get_height() // 2))
+        WIN.blit(start_text, (WIDTH // 2 - start_text.get_width() // 2, HEIGHT // 2 - start_text.get_height() // 2))
     elif win_menu == "Game":
-        # Draw score background and text
         pygame.draw.rect(WIN, GREY, (0, 0, 300, 100))
         score_text = font.render(f"Score: {score}", True, WHITE)
         WIN.blit(score_text, (0, 0))
-        
-        # Draw the clicker
+        upgrade_menu = pygame.draw.rect(WIN, GREY, (WIDTH - 300, 50, 200, 100))
         draw_clicker(mouse_pos, mouse_pressed)
 
     pygame.display.update()
 
 
 def main(win_menu):
-    global score  
+    global score
     Run = True
     Clock = pygame.time.Clock()
     clicked = False
@@ -90,10 +87,9 @@ def main(win_menu):
                 clicked = False
         
         elif win_menu == "Game":
-            # Add click detection and score increment
-            clicker_rect = pygame.Rect(Width // 2 - 100, Height // 2 - 100, 200, 200)
+            clicker_rect = pygame.Rect(WIDTH // 2 - 100, HEIGHT // 2 - 100, 200, 200)
             if mouse_pressed and clicker_rect.collidepoint(mouse_pos) and not clicked:
-                score += 1
+                score += new_score
                 clicked = True
             elif not mouse_pressed:
                 clicked = False

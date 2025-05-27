@@ -4,7 +4,6 @@ import pygame
 pygame.init()
 pygame.font.init()
 
-#Fun fact, the reason hysteria is often associated with women is because in the time of the ancient Greeks, it was believed to be caused by the uterus
 
 WIDTH, HEIGHT = 1200, 800
 FPS = 120
@@ -14,10 +13,12 @@ score = 0
 new_score = 1
 win_menu = "Start Screen"
 
+
 BLACK, WHITE = (0, 0, 0), (255, 255, 255)
 RED, GREEN, BLUE = (255, 0, 0), (0, 255, 0), (0, 0, 255)
 GREY = (128, 128, 128)
 font = pygame.font.SysFont("comicsans", 60)
+
 
 upgrades = {
     "upgrade1": {
@@ -34,6 +35,7 @@ upgrades = {
     },
 }
 
+
 def draw_clicker(mouse_pos, mouse_pressed):
     clicker_rect = pygame.Rect(WIDTH // 2 - 100, HEIGHT // 2 - 100, 200, 200)
     
@@ -48,6 +50,20 @@ def draw_clicker(mouse_pos, mouse_pressed):
     
     return clicker_rect
 
+
+def draw_upgrade_menu(mouse_pos, mouse_pressed):
+    upgrade_menu_rect = pygame.Rect(WIDTH - 300, 150, 200, 100)
+
+    if upgrade_menu_rect.collidepoint(mouse_pos):
+        if mouse_pressed:
+            pygame.draw.rect(WIN, BLACK, upgrade_menu_rect)
+            pygame.draw.rect(WIN, GREEN, upgrade_menu_rect.inflate(-20, -20))
+        else:
+            pygame.draw.rect(WIN, GREEN, upgrade_menu_rect)
+
+    return upgrade_menu_rect
+
+
 def draw_window(win_menu, mouse_pos, mouse_pressed):
     WIN.fill(BLACK)
     
@@ -55,11 +71,15 @@ def draw_window(win_menu, mouse_pos, mouse_pressed):
         start_text = font.render("Click to Start", True, WHITE)
         WIN.blit(start_text, (WIDTH // 2 - start_text.get_width() // 2, HEIGHT // 2 - start_text.get_height() // 2))
     elif win_menu == "Game":
-        pygame.draw.rect(WIN, GREY, (0, 0, 300, 100))
+        pygame.draw.rect(WIN, GREY, (0, 0, WIDTH, 100))
         score_text = font.render(f"Score: {score}", True, WHITE)
         WIN.blit(score_text, (0, 0))
-        upgrade_menu = pygame.draw.rect(WIN, GREY, (WIDTH - 300, 50, 200, 100))
+        upgrade_menu = pygame.draw.rect(WIN, GREY, (WIDTH - 300, 150, 200, 100))
+        draw_upgrade_menu(mouse_pos, mouse_pressed)
         draw_clicker(mouse_pos, mouse_pressed)
+    elif win_menu == "Upgrade Menu":
+
+        pygame.draw.rect(WIN, GREY, (0, 0, WIDTH, 100))
 
     pygame.display.update()
 
@@ -88,13 +108,17 @@ def main(win_menu):
         
         elif win_menu == "Game":
             clicker_rect = pygame.Rect(WIDTH // 2 - 100, HEIGHT // 2 - 100, 200, 200)
+            upgrade_menu_rect = pygame.Rect(WIDTH - 300, 50, 200, 100)
             if mouse_pressed and clicker_rect.collidepoint(mouse_pos) and not clicked:
                 score += new_score
                 clicked = True
+            elif mouse_pressed and upgrade_menu_rect.collidepoint(mouse_pos) and not clicked:
+                win_menu = "Upgrade Menu"
             elif not mouse_pressed:
                 clicked = False
             
         draw_window(win_menu, mouse_pos, mouse_pressed)
+
 
 if __name__ == "__main__":
     main(win_menu)

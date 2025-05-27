@@ -78,8 +78,9 @@ def draw_window(win_menu, mouse_pos, mouse_pressed):
         draw_upgrade_menu(mouse_pos, mouse_pressed)
         draw_clicker(mouse_pos, mouse_pressed)
     elif win_menu == "Upgrade Menu":
-
         pygame.draw.rect(WIN, GREY, (0, 0, WIDTH, 100))
+        score_text = font.render(f"Score: {score}", True, WHITE)
+        WIN.blit(score_text, (0, 0))
 
     pygame.display.update()
 
@@ -108,7 +109,7 @@ def main(win_menu):
         
         elif win_menu == "Game":
             clicker_rect = pygame.Rect(WIDTH // 2 - 100, HEIGHT // 2 - 100, 200, 200)
-            upgrade_menu_rect = pygame.Rect(WIDTH - 300, 50, 200, 100)
+            upgrade_menu_rect = pygame.Rect(WIDTH - 300, 150, 200, 100)
             if mouse_pressed and clicker_rect.collidepoint(mouse_pos) and not clicked:
                 score += new_score
                 clicked = True

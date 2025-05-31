@@ -14,6 +14,7 @@ new_score = 1
 win_menu = "Start Screen"
 
 
+UPGRADE_MENU_CORDS = (WIDTH - 300, 150, 200, 100)
 BLACK, WHITE = (0, 0, 0), (255, 255, 255)
 RED, GREEN, BLUE = (255, 0, 0), (0, 255, 0), (0, 0, 255)
 GREY = (128, 128, 128)
@@ -52,7 +53,7 @@ def draw_clicker(mouse_pos, mouse_pressed):
 
 
 def draw_upgrade_menu(mouse_pos, mouse_pressed):
-    upgrade_menu_rect = pygame.Rect(WIDTH - 300, 150, 200, 100)
+    upgrade_menu_rect = pygame.Rect(UPGRADE_MENU_CORDS)
 
     if upgrade_menu_rect.collidepoint(mouse_pos):
         if mouse_pressed:
@@ -70,13 +71,15 @@ def draw_window(win_menu, mouse_pos, mouse_pressed):
     if win_menu == "Start Screen":
         start_text = font.render("Click to Start", True, WHITE)
         WIN.blit(start_text, (WIDTH // 2 - start_text.get_width() // 2, HEIGHT // 2 - start_text.get_height() // 2))
+
     elif win_menu == "Game":
         pygame.draw.rect(WIN, GREY, (0, 0, WIDTH, 100))
         score_text = font.render(f"Score: {score}", True, WHITE)
         WIN.blit(score_text, (0, 0))
-        upgrade_menu = pygame.draw.rect(WIN, GREY, (WIDTH - 300, 150, 200, 100))
+        upgrade_menu = pygame.draw.rect(WIN, GREY, UPGRADE_MENU_CORDS)
         draw_upgrade_menu(mouse_pos, mouse_pressed)
         draw_clicker(mouse_pos, mouse_pressed)
+        
     elif win_menu == "Upgrade Menu":
         pygame.draw.rect(WIN, GREY, (0, 0, WIDTH, 100))
         score_text = font.render(f"Score: {score}", True, WHITE)

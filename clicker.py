@@ -84,7 +84,7 @@ def draw_window(win_menu, mouse_pos, mouse_pressed):
         WIN.blit(start_text, (WIDTH // 2 - start_text.get_width() // 2, HEIGHT // 2 - start_text.get_height() // 2))
 
     elif win_menu == "Game":
-        topbar = pygame.draw.rect(WIN, GREY, (0, 0, WIDTH, 100))
+        topbar = pygame.draw.rect(WIN, GREY, (0, 0, WIDTH - 250, 100))
         score_text = font.render(f"Score: {score}", True, WHITE)
         WIN.blit(score_text, (0, 0))
 
@@ -94,7 +94,7 @@ def draw_window(win_menu, mouse_pos, mouse_pressed):
 
         
     elif win_menu == "Upgrade Menu":
-        pygame.draw.rect(WIN, GREY, (0, 0, WIDTH, 100))
+        topbar = pygame.draw.rect(WIN, GREY, (0, 0, WIDTH - 250, 100))
         score_text = font.render(f"Score: {score}", True, WHITE)
         WIN.blit(score_text, (0, 0))
 

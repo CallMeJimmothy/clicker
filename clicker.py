@@ -27,21 +27,21 @@ upgrades = {
         "cost": 10,
         "addition": 1,
         "effect": "Increases score gain by 1",
-        "amount":0
+        "amount": 0
     },
     "upgrade2": {
         "name": "Upgrade 2",
         "cost": 100,
         "addition": 5,
         "effect": "Increases score gain by 5",
-        "amount":0
+        "amount": 0
     },
     "upgrade3": {
         "name": "Upgrade 3"
         "cost": 1000
-        "addition":50
+        "addition": 50
         "effect": "increase score gain by 50"
-        "amount":0
+        "amount": 0
     },
 }
 

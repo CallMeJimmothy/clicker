@@ -162,6 +162,7 @@ if __name__ == "__main__":
 
 #redo of everything
 
+# setup
 import pygame
 pygame.init()
 pygame.font.init()
@@ -182,3 +183,5 @@ BLACK, WHITE = (0, 0, 0), (255, 255, 255)
 RED, GREEN, BLUE = (255, 0, 0), (0, 255, 0), (0, 0, 255)
 GREY = (128, 128, 128)
 font = pygame.font.SysFont("comicsans", Font_Size)
+
+# setup

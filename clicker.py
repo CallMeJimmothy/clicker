@@ -186,3 +186,31 @@ GREY = (128, 128, 128)
 font = pygame.font.SysFont("comicsans", Font_Size)
 
 # setup
+#----------------------------------------------
+#upgrades
+
+upgrades = {
+    "upgrade1": {
+        "name": "Upgrade 1",
+        "cost": 10,
+        "addition": 1,
+        "effect": "Increases score gain by 1",
+    },
+    "upgrade2": {
+        "name": "Upgrade 2",
+        "cost": 100,
+        "addition": 5,
+        "effect": "Increases score gain by 5",
+    },
+    "upgrade3": {
+        "name": "Upgrade 3",
+        "cost": 1000,
+        "addition": 50,
+        "effect": "increase score gain by 50",
+    },
+}
+
+#upgrades
+#----------------------------------------------
+#draw modules
+

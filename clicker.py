@@ -159,3 +159,26 @@ def main(win_menu):
 
 if __name__ == "__main__":
     main(win_menu)
+
+#redo of everything
+
+import pygame
+pygame.init()
+pygame.font.init()
+
+WIDTH, HEIGHT = 1500, 1000
+FPS = 120
+WIN = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("CLICKIE")
+
+Font_Size = 50
+score = 0
+new_score = 1
+win_menu = "Start Screen"
+
+CLICKER_MENU_CORDS = (WIDTH - 220, 0, 200, 100)
+UPGRADE_MENU_CORDS = (WIDTH - 220, 110, 200, 100)
+BLACK, WHITE = (0, 0, 0), (255, 255, 255)
+RED, GREEN, BLUE = (255, 0, 0), (0, 255, 0), (0, 0, 255)
+GREY = (128, 128, 128)
+font = pygame.font.SysFont("comicsans", Font_Size)

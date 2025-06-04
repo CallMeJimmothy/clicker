@@ -163,6 +163,7 @@ if __name__ == "__main__":
 #redo of everything
 
 # setup
+
 import pygame
 pygame.init()
 pygame.font.init()

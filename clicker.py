@@ -161,9 +161,9 @@ if __name__ == "__main__":
     main(win_menu)
 
 #redo of everything
-#------------------------------
+#---------------------------------------------------------
 # setup
-
+#---------------------------------------------------------
 import pygame
 pygame.init()
 pygame.font.init()
@@ -185,40 +185,52 @@ RED, GREEN, BLUE = (255, 0, 0), (0, 255, 0), (0, 0, 255)
 GREY = (128, 128, 128)
 font = pygame.font.SysFont("comicsans", Font_Size)
 
-# setup
+
 #---------------------------------------------------------
 #upgrades
+#---------------------------------------------------------
 
-upgrades = {
-    "upgrade1": {
-        "name": "Upgrade 1",
-        "cost": 10,
-        "addition": 1,
-        "effect": "Increases score gain by 1",
-    },
-    "upgrade2": {
-        "name": "Upgrade 2",
-        "cost": 100,
-        "addition": 5,
-        "effect": "Increases score gain by 5",
-    },
-    "upgrade3": {
-        "name": "Upgrade 3",
-        "cost": 1000,
-        "addition": 50,
-        "effect": "increase score gain by 50",
-    },
-}
+class Upgrade:
+    def __init__(self, name, cost, addition, effect):
+        self.name = name
+        self.cost = cost
+        self.addition = addition
+        self.effect = effect
+        self.amount = 0
 
-#upgrades
+    def apply_upgrade(self):
+        global new_score
+        new_score += self.addition
+        self.amount += 1
+
+upgrade1 = Upgrade("Upgrade 1", 10, 1, "Increases score gain by 1")
+upgrade2 = Upgrade("Upgrade 2", 100, 5, "Increases score gain by 5")
+upgrade3 = Upgrade("Upgrade 3", 1000, 50, "Increases score gain by 50")
+
 #---------------------------------------------------------
 #draw modules
+#---------------------------------------------------------
 
 def clicker():
-    
-#draw modules
+    print("placeholder")
+
+
 #---------------------------------------------------------
 #start
+#---------------------------------------------------------
 
 def main():
-   
+    global score, new_score, win_menu
+    RUN=True
+    CLOCK = pygame.time.Clock()
+    clicked = False
+
+
+
+
+#---------------------------------------------------------
+#run
+#---------------------------------------------------------
+
+if __name__ == "__main__":
+    main()

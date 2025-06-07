@@ -225,7 +225,14 @@ def main():
     CLOCK = pygame.time.Clock()
     clicked = False
 
-
+    while RUN:
+        CLOCK.tick(FPS)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                RUN = False
+        
+        mouse_pressed = pygame.mouse.get_pressed()[0]
+        mouse_pos = pygame.mouse.get_pos()
 
 
 #---------------------------------------------------------

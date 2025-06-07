@@ -210,6 +210,15 @@ upgrade3 = Upgrade("Upgrade 3", 1000, 50, "Increases score gain by 50")
 #---------------------------------------------------------
 #draw modules
 #---------------------------------------------------------
+def score_display():
+    score_text = font.render(f"Score: {score}", True, WHITE)
+    WIN.blit(score_text, (0, 0))
+
+def start_screen():
+    WIN.fill(BLACK)
+    start_text = font.render("Click to Start", True, WHITE)
+    WIN.blit(start_text, (WIDTH // 2 - start_text.get_width() // 2, HEIGHT // 2 - start_text.get_height() // 2))
+    pygame.display.update()
 
 def clicker():
     print("placeholder")
@@ -234,7 +243,18 @@ def main():
         mouse_pressed = pygame.mouse.get_pressed()[0]
         mouse_pos = pygame.mouse.get_pos()
 
+        if win_menu == "Start Screen":
+            if mouse_pressed and not clicked:
+                win_menu = "Game"
+                clicked = True
+            elif not mouse_pressed:
+                clicked = False
+            start_screen()
+        if win_menu != "Start Screen":
+            score_display()
 
+        pygame.display.update()
+        
 #---------------------------------------------------------
 #run
 #---------------------------------------------------------

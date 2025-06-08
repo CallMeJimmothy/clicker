@@ -220,8 +220,14 @@ def start_screen():
     WIN.blit(start_text, (WIDTH // 2 - start_text.get_width() // 2, HEIGHT // 2 - start_text.get_height() // 2))
     pygame.display.update()
 
-def clicker():
-    print("placeholder")
+def clicker(mouse_pos, mouse_pressed, clicked):
+    clicker = pygame.draw.rect(WIN, WHITE, (WIDTH // 2 - 100, HEIGHT // 2 - 100, 200, 200))
+    if clicker.collidepoint(mouse_pos):
+        if mouse_pressed and not clicked:
+            pygame.draw.rect(WIN, BLACK, clicker)
+            pygame.draw.rect(WIN, GREEN, clicker.inflate(-20, -20))
+        else:
+            pygame.draw.rect(WIN, GREEN, clicker)
 
 
 #---------------------------------------------------------
@@ -250,6 +256,11 @@ def main():
             elif not mouse_pressed:
                 clicked = False
             start_screen()
+        
+        if win_menu == "Game":
+            clicker(mouse_pos, mouse_pressed, clicked)
+        
+        
         if win_menu != "Start Screen":
             score_display()
 

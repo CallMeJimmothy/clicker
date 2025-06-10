@@ -180,9 +180,6 @@ win_menu = "Start Screen"
 
 CLICKER_MENU_CORDS = (WIDTH - 220, 0, 200, 100)
 UPGRADE_MENU_CORDS = (WIDTH - 220, 110, 200, 100)
-BLACK, WHITE = (0, 0, 0), (255, 255, 255)
-RED, GREEN, BLUE = (255, 0, 0), (0, 255, 0), (0, 0, 255)
-GREY = (128, 128, 128)
 font = pygame.font.SysFont("comicsans", Font_Size)
 
 
@@ -215,19 +212,19 @@ def score_display():
     WIN.blit(score_text, (0, 0))
 
 def start_screen():
-    WIN.fill(BLACK)
+    WIN.fill("black")
     start_text = font.render("Click to Start", True, WHITE)
     WIN.blit(start_text, (WIDTH // 2 - start_text.get_width() // 2, HEIGHT // 2 - start_text.get_height() // 2))
     pygame.display.update()
 
 def clicker(mouse_pos, mouse_pressed, clicked):
-    clicker = pygame.draw.rect(WIN, WHITE, (WIDTH // 2 - 100, HEIGHT // 2 - 100, 200, 200))
+    clicker = pygame.draw.rect(WIN, "white", (WIDTH // 2 - 100, HEIGHT // 2 - 100, 200, 200))
     if clicker.collidepoint(mouse_pos):
         if mouse_pressed and not clicked:
-            pygame.draw.rect(WIN, BLACK, clicker)
-            pygame.draw.rect(WIN, GREEN, clicker.inflate(-20, -20))
+            pygame.draw.rect(WIN, "black", clicker)
+            pygame.draw.rect(WIN, "green", clicker.inflate(-20, -20))
         else:
-            pygame.draw.rect(WIN, GREEN, clicker)
+            pygame.draw.rect(WIN, "green", clicker)
 
 
 #---------------------------------------------------------
@@ -262,7 +259,9 @@ def main():
         
         
         if win_menu != "Start Screen":
+            WIN.fill("black")
             score_display()
+            clicker(mouse_pos, mouse_pressed, clicked)
 
         pygame.display.update()
         

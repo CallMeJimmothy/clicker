@@ -255,13 +255,12 @@ def main():
             start_screen()
         
         if win_menu == "Game":
+            WIN.fill("black")
             clicker(mouse_pos, mouse_pressed, clicked)
         
         
         if win_menu != "Start Screen":
-            WIN.fill("black")
             score_display()
-            clicker(mouse_pos, mouse_pressed, clicked)
 
         pygame.display.update()
         

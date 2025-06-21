@@ -218,48 +218,56 @@ def start_screen():
     pygame.display.update()
 
 def clicker(mouse_pos, mouse_pressed, clicked):
-    clicker = pygame.draw.rect(WIN, "white", (WIDTH // 2 - 100, HEIGHT // 2 - 100, 200, 200))
-    if clicker.collidepoint(mouse_pos):
+    clicker_rect = pygame.Rect(WIDTH // 2 - 100, HEIGHT // 2 - 100, 200, 200)
+    pygame.draw.rect(WIN, "white", clicker_rect)
+    if clicker_rect.collidepoint(mouse_pos):
         if mouse_pressed and not clicked:
-            pygame.draw.rect(WIN, "black", clicker)
-            pygame.draw.rect(WIN, "green", clicker.inflate(-20, -20))
+            pygame.draw.rect(WIN, "green", clicker_rect.inflate(-20, -20))
+            return True  # Click registered
         else:
-            pygame.draw.rect(WIN, "green", clicker)
+            pygame.draw.rect(WIN, "green", clicker_rect)
+    else:
+        pygame.draw.rect(WIN, "white", clicker_rect)
+    return False  # No click
+
 
 
 #---------------------------------------------------------
-#start
+#script
 #---------------------------------------------------------
 
 def main():
     global score, new_score, win_menu
-    RUN=True
+    RUN = True
     CLOCK = pygame.time.Clock()
     clicked = False
 
     while RUN:
         CLOCK.tick(FPS)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                RUN = False
-        
         mouse_pressed = pygame.mouse.get_pressed()[0]
         mouse_pos = pygame.mouse.get_pos()
 
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                RUN = False
+            elif event.type == pygame.MOUSEBUTTONUP:
+                clicked = False  # Reset click state on release
+
+        WIN.fill("black")
+
         if win_menu == "Start Screen":
+            start_screen()
             if mouse_pressed and not clicked:
                 win_menu = "Game"
                 clicked = True
-            elif not mouse_pressed:
-                clicked = False
-            start_screen()
         
-        if win_menu == "Game":
-            WIN.fill("black")
-            clicker(mouse_pos, mouse_pressed, clicked)
-        
-        
-        if win_menu != "Start Screen":
+        elif win_menu == "Game":
+            # Check if clicker was clicked and update score
+            if clicker(mouse_pos, mouse_pressed, clicked):
+                score += new_score
+                clicked = True
+            
+            # Display score in game mode
             score_display()
 
         pygame.display.update()

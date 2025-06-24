@@ -205,6 +205,16 @@ upgrade2 = Upgrade("Upgrade 2", 100, 5, "Increases score gain by 5")
 upgrade3 = Upgrade("Upgrade 3", 1000, 50, "Increases score gain by 50")
 
 #---------------------------------------------------------
+#classes
+#---------------------------------------------------------
+
+class Clicker:
+    def __init__(self,x ,y ,width, height):
+        self.rect = pygame.Rect(x, y, width, height)
+    
+    def draw_clicker(self)
+
+#---------------------------------------------------------
 #draw modules
 #---------------------------------------------------------
 def score_display():
@@ -222,8 +232,9 @@ def clicker(mouse_pos, mouse_pressed, clicked):
     pygame.draw.rect(WIN, "white", clicker_rect)
     if clicker_rect.collidepoint(mouse_pos):
         if mouse_pressed and not clicked:
+            pygame.draw.rect(WIN, "black", clicker_rect)
             pygame.draw.rect(WIN, "green", clicker_rect.inflate(-20, -20))
-            return True  # Click registered
+            return clicked == True  # Click detected
         else:
             pygame.draw.rect(WIN, "green", clicker_rect)
     else:
@@ -263,9 +274,9 @@ def main():
         
         elif win_menu == "Game":
             # Check if clicker was clicked and update score
-            if clicker(mouse_pos, mouse_pressed, clicked):
+            if clicker(mouse_pos, mouse_pressed, clicked == True):
                 score += new_score
-                clicked = True
+            
             
             # Display score in game mode
             score_display()

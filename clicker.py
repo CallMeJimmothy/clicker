@@ -212,7 +212,8 @@ class Clicker:
     def __init__(self,x ,y ,width, height):
         self.rect = pygame.Rect(x, y, width, height)
     
-    def draw_clicker(self)
+    def draw_clicker(self, x, y, mouse_pos, mouse_pressed):
+        
 
 #---------------------------------------------------------
 #draw modules
@@ -281,7 +282,7 @@ def main():
             # Display score in game mode
             score_display()
 
-        pygame.display.update()
+        pygame.display.flip()
         
 #---------------------------------------------------------
 #run

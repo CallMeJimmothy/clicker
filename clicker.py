@@ -205,7 +205,7 @@ upgrade2 = Upgrade("Upgrade 2", 100, 5, "Increases score gain by 5")
 upgrade3 = Upgrade("Upgrade 3", 1000, 50, "Increases score gain by 50")
 
 #---------------------------------------------------------
-#classes
+#clicker
 #---------------------------------------------------------
 
 class Clicker:

@@ -177,6 +177,7 @@ Font_Size = 50
 score = 0
 new_score = 1
 win_menu = "Start Screen"
+WHITE = (255, 255, 255)  # Added missing color definition
 
 CLICKER_MENU_CORDS = (WIDTH - 220, 0, 200, 100)
 UPGRADE_MENU_CORDS = (WIDTH - 220, 110, 200, 100)
@@ -208,15 +209,22 @@ upgrade3 = Upgrade("Upgrade 3", 1000, 50, "Increases score gain by 50")
 #clicker
 #---------------------------------------------------------
 
-class Clicker:
+class clicker:
     def __init__(self,x ,y ,width, height):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
     
-    def draw_clicker(self):
-        print("draw clicker")
+    def draw_clicker(self, mouse_pos, mouse_pressed, clicked):
+        clicker_rect = pygame.Rect(self.x, self.y, self.width, self.height)
+        pygame.draw.rect(WIN, "black", clicker_rect)
+        pygame.draw.rect(WIN, "green", clicker_rect.inflate(-20, -20))
+        
+        # Only return True if this is a new click (mouse pressed and wasn't clicked before)
+        if clicker_rect.collidepoint(mouse_pos) and mouse_pressed and not clicked:
+            return True
+        return False
 
 #---------------------------------------------------------
 #draw modules
@@ -229,22 +237,6 @@ def start_screen():
     WIN.fill("black")
     start_text = font.render("Click to Start", True, WHITE)
     WIN.blit(start_text, (WIDTH // 2 - start_text.get_width() // 2, HEIGHT // 2 - start_text.get_height() // 2))
-    pygame.display.update()
-
-def clicker(mouse_pos, mouse_pressed, clicked):
-    clicker_rect = pygame.Rect(WIDTH // 2 - 100, HEIGHT // 2 - 100, 200, 200)
-    pygame.draw.rect(WIN, "white", clicker_rect)
-    if clicker_rect.collidepoint(mouse_pos):
-        if mouse_pressed and not clicked:
-            pygame.draw.rect(WIN, "black", clicker_rect)
-            pygame.draw.rect(WIN, "green", clicker_rect.inflate(-20, -20))
-            return clicked == True  # Click detected
-        else:
-            pygame.draw.rect(WIN, "green", clicker_rect)
-    else:
-        pygame.draw.rect(WIN, "white", clicker_rect)
-    return False  # No click
-
 
 
 #---------------------------------------------------------
@@ -257,6 +249,9 @@ def main():
     CLOCK = pygame.time.Clock()
     clicked = False
 
+    # Create a clicker instance (centered)
+    my_clicker = clicker(WIDTH // 2 - 100, HEIGHT // 2 - 100, 200, 200)
+
     while RUN:
         CLOCK.tick(FPS)
         mouse_pressed = pygame.mouse.get_pressed()[0]
@@ -265,8 +260,10 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 RUN = False
-            elif event.type == pygame.MOUSEBUTTONUP:
-                clicked = False  # Reset click state on release
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                clicked = True  # Mouse button was pressed
+            elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                clicked = False  # Mouse button was released
 
         WIN.fill("black")
 
@@ -278,9 +275,9 @@ def main():
         
         elif win_menu == "Game":
             # Check if clicker was clicked and update score
-            if clicker(mouse_pos, mouse_pressed, clicked == True):
+            if my_clicker.draw_clicker(mouse_pos, mouse_pressed, clicked):
                 score += new_score
-            
+                clicked = True  # Prevent multiple clicks
             
             # Display score in game mode
             score_display()

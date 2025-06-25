@@ -215,7 +215,7 @@ class Clicker:
         self.width = width
         self.height = height
     
-    def draw_clicker(self, x, y, mouse_pos, mouse_pressed):
+    def draw_clicker(self):
         
 
 #---------------------------------------------------------

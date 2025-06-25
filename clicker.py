@@ -210,7 +210,10 @@ upgrade3 = Upgrade("Upgrade 3", 1000, 50, "Increases score gain by 50")
 
 class Clicker:
     def __init__(self,x ,y ,width, height):
-        self.rect = pygame.Rect(x, y, width, height)
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
     
     def draw_clicker(self, x, y, mouse_pos, mouse_pressed):
         

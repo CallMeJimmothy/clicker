@@ -218,11 +218,14 @@ class clicker:
     
     def draw_clicker(self, mouse_pos, mouse_pressed, clicked):
         clicker_rect = pygame.Rect(self.x, self.y, self.width, self.height)
-        pygame.draw.rect(WIN, "black", clicker_rect)
-        pygame.draw.rect(WIN, "green", clicker_rect.inflate(-20, -20))
+        pygame.draw.rect(WIN, "white", clicker_rect)
+        if clicker_rect.collidepoint(mouse_pos):
+            pygame.draw.rect(WIN, "green", clicker_rect)
         
         # Only return True if this is a new click (mouse pressed and wasn't clicked before)
         if clicker_rect.collidepoint(mouse_pos) and mouse_pressed and not clicked:
+            pygame.draw.rect(WIN, "black", clicker_rect)
+            pygame.draw.rect(WIN, "green", clicker_rect.inflate(-20, -20))
             return True
         return False
 

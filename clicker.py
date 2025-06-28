@@ -178,9 +178,6 @@ score = 0
 new_score = 1
 win_menu = "Start Screen"
 WHITE = (255, 255, 255)  # Added missing color definition
-
-CLICKER_MENU_CORDS = (WIDTH - 220, 0, 200, 100)
-UPGRADE_MENU_CORDS = (WIDTH - 220, 110, 200, 100)
 font = pygame.font.SysFont("comicsans", Font_Size)
 
 

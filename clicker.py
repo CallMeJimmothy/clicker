@@ -1,3 +1,4 @@
+version = "0.1.1"
 #---------------------------------------------------------
 # setup
 #---------------------------------------------------------
@@ -85,12 +86,12 @@ class clicker:
 #draw modules
 #---------------------------------------------------------
 def score_display():
-    score_text = font.render(f"Score: {score}", True, WHITE)
+    score_text = font.render(f"Score: {score}", True, "white")
     WIN.blit(score_text, (0, 0))
 
 def start_screen():
     WIN.fill("black")
-    start_text = font.render("Click to Start", True, WHITE)
+    start_text = font.render("Click to Start", True, "white")
     WIN.blit(start_text, (WIDTH // 2 - start_text.get_width() // 2, HEIGHT // 2 - start_text.get_height() // 2))
 
 

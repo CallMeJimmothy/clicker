@@ -51,8 +51,25 @@ class Upgrade:
             return True
         return False
     
-    def draw(self):
-        pass
+    def draw(self, mouse_pos, mouse_pressed, clicked):
+        upgrade_rect = pygame.Rect(self.x - self.size_x // 2 , self.y - self.size_y // 2 , self.size_x, self.size_y)
+        pygame.draw.rect(WIN, "blue", upgrade_rect)
+        upgrade_text = font.render(f"{self.name} - Cost: {self.cost} - Gain: {self.addition}", True, "white")
+        WIN.blit(upgrade_text, (self.x + 10, self.y + 10))
+
+        if upgrade_rect.collidepoint(pygame.mouse.get_pos()):
+            pygame.draw.rect(WIN, "green", upgrade_rect, 2)
+        
+        if upgrade_rect.collidepoint(mouse_pos) and mouse_pressed and not clicked:
+            if self.purchase():
+                pygame.draw.rect(WIN, "black", upgrade_rect)
+                pygame.draw.rect(WIN, "green", upgrade_rect.inflate(-20, -20))
+                print(f"{self.name} purchased! New score gain: {new_score}")
+                return True
+            else:
+                print(f"Not enough score to purchase {self.name}.")
+        
+        
 
 upgrade1 = Upgrade("Upgrade 1", 10, 1, "Increases score gain by 1",PLACEHOLDER_VALUE, PLACEHOLDER_VALUE, PLACEHOLDER_VALUE, PLACEHOLDER_VALUE)
 upgrade2 = Upgrade("Upgrade 2", 100, 5, "Increases score gain by 5",PLACEHOLDER_VALUE, PLACEHOLDER_VALUE, PLACEHOLDER_VALUE, PLACEHOLDER_VALUE)
@@ -72,6 +89,10 @@ class clicker:
     def draw_clicker(self, mouse_pos, mouse_pressed, clicked):
         clicker_rect = pygame.Rect(self.x, self.y, self.width, self.height)
         pygame.draw.rect(WIN, "white", clicker_rect)
+        if clicker_rect.collidepoint(mouse_pos):
+            pygame.draw.rect(WIN, "green", clicker_rect)
+        
+        # Only return True if this is a new click (mouse pressed and wasn't clicked before)
         if clicker_rect.collidepoint(mouse_pos) and mouse_pressed and not clicked:
             pygame.draw.rect(WIN, "black", clicker_rect)
             pygame.draw.rect(WIN, "green", clicker_rect.inflate(-20, -20))
@@ -81,6 +102,7 @@ class clicker:
 #---------------------------------------------------------
 #draw modules
 #---------------------------------------------------------
+
 def score_display():
     score_text = font.render(f"Score: {score}", True, "white")
     WIN.blit(score_text, (0, 0))

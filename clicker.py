@@ -177,30 +177,48 @@ Font_Size = 50
 score = 0
 new_score = 1
 win_menu = "Start Screen"
-WHITE = (255, 255, 255)  # Added missing color definition
 font = pygame.font.SysFont("comicsans", Font_Size)
-
+PLACEHOLDER_VALUE = 0
 
 #---------------------------------------------------------
 #upgrades
 #---------------------------------------------------------
 
 class Upgrade:
-    def __init__(self, name, cost, addition, effect):
+    def __init__(self, name, cost, addition, effect, x, y, size_x, size_y):
         self.name = name
         self.cost = cost
         self.addition = addition
         self.effect = effect
         self.amount = 0
+        self.x = x
+        self.y = y
+        self.size_x = size_x
+        self.size_y = size_y
 
     def apply_upgrade(self):
         global new_score
         new_score += self.addition
         self.amount += 1
+    
+    def can_afford(self):
+        global score
+        return score >= self.cost
 
-upgrade1 = Upgrade("Upgrade 1", 10, 1, "Increases score gain by 1")
-upgrade2 = Upgrade("Upgrade 2", 100, 5, "Increases score gain by 5")
-upgrade3 = Upgrade("Upgrade 3", 1000, 50, "Increases score gain by 50")
+    def purchase(self):
+        global score
+        if self.can_afford():
+            score -= self.cost
+            self.apply_upgrade()
+            return True
+        return False
+    
+    def draw(self):
+        pass
+
+upgrade1 = Upgrade("Upgrade 1", 10, 1, "Increases score gain by 1",PLACEHOLDER_VALUE, PLACEHOLDER_VALUE, PLACEHOLDER_VALUE, PLACEHOLDER_VALUE)
+upgrade2 = Upgrade("Upgrade 2", 100, 5, "Increases score gain by 5",PLACEHOLDER_VALUE, PLACEHOLDER_VALUE, PLACEHOLDER_VALUE, PLACEHOLDER_VALUE)
+upgrade3 = Upgrade("Upgrade 3", 1000, 50, "Increases score gain by 50",PLACEHOLDER_VALUE, PLACEHOLDER_VALUE, PLACEHOLDER_VALUE, PLACEHOLDER_VALUE)
 
 #---------------------------------------------------------
 #clicker
@@ -258,7 +276,7 @@ def main():
         mouse_pos = pygame.mouse.get_pos()
 
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 RUN = False
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 clicked = True  # Mouse button was pressed
@@ -278,6 +296,7 @@ def main():
             if my_clicker.draw_clicker(mouse_pos, mouse_pressed, clicked):
                 score += new_score
                 clicked = True  # Prevent multiple clicks
+                print("clicker clicked, score increased to:", score)
             
             # Display score in game mode
             score_display()

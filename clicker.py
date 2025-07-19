@@ -154,6 +154,10 @@ def main():
                 clicked = True  # Prevent multiple clicks
                 print("clicker clicked, score increased to:", score)
             
+            if upgrade1.draw(mouse_pos, mouse_pressed, clicked):
+                upgrade1.purchase()
+                clicked = True
+
             # Display score in game mode
             score_display()
 
@@ -165,3 +169,10 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+
+#---------------------------------------------------------
+#redo for updates
+#---------------------------------------------------------

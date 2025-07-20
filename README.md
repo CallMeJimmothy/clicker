@@ -12,10 +12,14 @@ Welcome! Hope you join me on this journey and enjoy watching the game develop.
 
 ---
 
-## 🚀 Upcoming Features
+## ✨ Finished Features
 
 - **Upgrade System:**  
   Purchase upgrades to increase your score per click and unlock new abilities.
+  
+---
+
+## 🚀 Upcoming Features
 
 - **Save Functionality:**  
   Your progress will be saved automatically, so you can continue where you left off.

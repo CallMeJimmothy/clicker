@@ -160,12 +160,10 @@ def main():
                 clicked = True  # Prevent multiple clicks
                 print("clicker clicked, score increased to:", game_state.score)
             
-            # Only allow one upgrade purchase per frame
-            upgrade_purchased = False
             for upgrade in [upgrade1, upgrade2, upgrade3]:
-                if not upgrade_purchased and upgrade.draw(mouse_pos, mouse_pressed, clicked, game_state):
+                if upgrade.draw(mouse_pos, mouse_pressed, clicked, game_state):
                     clicked = True
-                    upgrade_purchased = True
+                    print(f"Upgrade {upgrade.name} applied. New score gain: {game_state.new_score}")
 
             # Display score in game mode
             score_display(game_state)

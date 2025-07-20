@@ -10,13 +10,22 @@ WIDTH, HEIGHT = 1500, 1000
 FPS = 120
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("CLICKIE")
-
 Font_Size = 50
-score = 0
-new_score = 1
-win_menu = "Start Screen"
 font = pygame.font.SysFont("comicsans", Font_Size)
 PLACEHOLDER_VALUE = 0
+
+#---------------------------------------------------------
+# game state
+#---------------------------------------------------------
+
+class GameState:
+    def __init__(self):
+        self.score = 0
+        self.new_score = 1
+        self.win_menu = "Start Screen"
+
+game_state = GameState()
+
 
 #---------------------------------------------------------
 #upgrades
@@ -34,24 +43,21 @@ class Upgrade:
         self.size_x = size_x
         self.size_y = size_y
 
-    def apply_upgrade(self):
-        global new_score
-        new_score += self.addition
+    def apply_upgrade(self, game_state):
+        game_state.new_score += self.addition
         self.amount += 1
     
-    def can_afford(self):
-        global score
-        return score >= self.cost
+    def can_afford(self, game_state):
+        return game_state.score >= self.cost
 
-    def purchase(self):
-        global score
-        if self.can_afford():
-            score -= self.cost
-            self.apply_upgrade()
+    def purchase(self, game_state):
+        if self.can_afford(game_state):
+            game_state.score -= self.cost
+            self.apply_upgrade(game_state)
             return True
         return False
     
-    def draw(self, mouse_pos, mouse_pressed, clicked):
+    def draw(self, mouse_pos, mouse_pressed, clicked, game_state):
         upgrade_rect = pygame.Rect(self.x - self.size_x // 2 , self.y - self.size_y // 2 , self.size_x, self.size_y)
         pygame.draw.rect(WIN, "blue", upgrade_rect)
         upgrade_text = font.render(f"{self.name} - Cost: {self.cost} - Gain: {self.addition}", True, "white")
@@ -61,10 +67,10 @@ class Upgrade:
             pygame.draw.rect(WIN, "green", upgrade_rect, 2)
         
         if upgrade_rect.collidepoint(mouse_pos) and mouse_pressed and not clicked:
-            if self.purchase():
+            if self.purchase(game_state):
                 pygame.draw.rect(WIN, "black", upgrade_rect)
                 pygame.draw.rect(WIN, "green", upgrade_rect.inflate(-20, -20))
-                print(f"{self.name} purchased! New score gain: {new_score}")
+                print(f"{self.name} purchased! New score gain: {game_state.new_score}")
                 return True
             else:
                 print(f"Not enough score to purchase {self.name}.")
@@ -103,8 +109,8 @@ class clicker:
 #draw modules
 #---------------------------------------------------------
 
-def score_display():
-    score_text = font.render(f"Score: {score}", True, "white")
+def score_display(game_state):
+    score_text = font.render(f"Score: {game_state.score}", True, "white")
     WIN.blit(score_text, (0, 0))
 
 def start_screen():
@@ -112,13 +118,11 @@ def start_screen():
     start_text = font.render("Click to Start", True, "white")
     WIN.blit(start_text, (WIDTH // 2 - start_text.get_width() // 2, HEIGHT // 2 - start_text.get_height() // 2))
 
-
 #---------------------------------------------------------
 #script
 #---------------------------------------------------------
 
 def main():
-    global score, new_score, win_menu
     RUN = True
     CLOCK = pygame.time.Clock()
     clicked = False
@@ -136,38 +140,40 @@ def main():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 RUN = False
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                clicked = True  # Mouse button was pressed
+                if not clicked:
+                    clicked = True  # Mouse button was pressed
             elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 clicked = False  # Mouse button was released
 
         WIN.fill("black")
 
-        if win_menu == "Start Screen":
+        if game_state.win_menu == "Start Screen":
             start_screen()
             if mouse_pressed and not clicked:
-                win_menu = "Game"
+                game_state.win_menu = "Game"
                 clicked = True
         
-        elif win_menu == "Game":
+        elif game_state.win_menu == "Game":
             # Check if clicker was clicked and update score
             if my_clicker.draw_clicker(mouse_pos, mouse_pressed, clicked):
-                score += new_score
+                game_state.score += game_state.new_score
                 clicked = True  # Prevent multiple clicks
-                print("clicker clicked, score increased to:", score)
+                print("clicker clicked, score increased to:", game_state.score)
             
-            if upgrade1.draw(mouse_pos, mouse_pressed, clicked):
-                clicked = True
-            if upgrade2.draw(mouse_pos, mouse_pressed, clicked):
-                clicked = True
-            if upgrade3.draw(mouse_pos, mouse_pressed, clicked):
-                clicked = True
+            # Only allow one upgrade purchase per frame
+            upgrade_purchased = False
+            for upgrade in [upgrade1, upgrade2, upgrade3]:
+                if not upgrade_purchased and upgrade.draw(mouse_pos, mouse_pressed, clicked, game_state):
+                    clicked = True
+                    upgrade_purchased = True
 
             # Display score in game mode
-            score_display()
-        timer += 1
-        if timer == FPS:
+            score_display(game_state)
+        
+        timer += 1 # Increment timer every frame
+        if timer >= FPS: # Reset timer every second
             timer = 0
-            print(f"Current score: {score}, Score gain per click: {new_score}")
+            print(f"Current score: {game_state.score}, Score gain per click: {game_state.new_score}")
 
         pygame.display.flip()
         
@@ -177,8 +183,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
 
 
 #---------------------------------------------------------

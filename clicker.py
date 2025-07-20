@@ -72,8 +72,8 @@ class Upgrade:
         
 # upgrade - upgrade("name", cost, addition, effect, x, y, size_x, size_y)
 upgrade1 = Upgrade("Upgrade 1", 10, 1, "Increases score gain by 1",100, 100, 100, 50)
-upgrade2 = Upgrade("Upgrade 2", 100, 5, "Increases score gain by 5",PLACEHOLDER_VALUE, PLACEHOLDER_VALUE, PLACEHOLDER_VALUE, PLACEHOLDER_VALUE)
-upgrade3 = Upgrade("Upgrade 3", 1000, 50, "Increases score gain by 50",PLACEHOLDER_VALUE, PLACEHOLDER_VALUE, PLACEHOLDER_VALUE, PLACEHOLDER_VALUE)
+upgrade2 = Upgrade("Upgrade 2", 100, 5, "Increases score gain by 5",100, 250, 100, 50)
+upgrade3 = Upgrade("Upgrade 3", 1000, 50, "Increases score gain by 50",100, 400, 100, 50)
 
 #---------------------------------------------------------
 #clicker
@@ -155,6 +155,10 @@ def main():
                 print("clicker clicked, score increased to:", score)
             
             if upgrade1.draw(mouse_pos, mouse_pressed, clicked):
+                clicked = True
+            if upgrade2.draw(mouse_pos, mouse_pressed, clicked):
+                clicked = True
+            if upgrade3.draw(mouse_pos, mouse_pressed, clicked):
                 clicked = True
 
             # Display score in game mode

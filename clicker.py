@@ -122,6 +122,7 @@ def main():
     RUN = True
     CLOCK = pygame.time.Clock()
     clicked = False
+    timer = 0
 
     # Create a clicker instance (centered)
     my_clicker = clicker(WIDTH // 2 - 100, HEIGHT // 2 - 100, 200, 200)
@@ -163,6 +164,10 @@ def main():
 
             # Display score in game mode
             score_display()
+        timer += 1
+        if timer == FPS:
+            timer = 0
+            print(f"Current score: {score}, Score gain per click: {new_score}")
 
         pygame.display.flip()
         

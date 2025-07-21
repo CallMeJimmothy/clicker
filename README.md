@@ -2,6 +2,7 @@
 
 A personal project on making a clicker game.  
 Welcome! Hope you join me on this journey and enjoy watching the game develop.
+Once you take it you keep it!
 
 ---
 

@@ -10,7 +10,7 @@ WIDTH, HEIGHT = 1500, 1000
 FPS = 120
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("CLICKIE")
-Font_Size = 50
+Font_Size = 35
 font = pygame.font.SysFont("comicsans", Font_Size)
 PLACEHOLDER_VALUE = 0
 
@@ -60,8 +60,12 @@ class Upgrade:
     def draw(self, mouse_pos, mouse_pressed, clicked, game_state):
         upgrade_rect = pygame.Rect(self.x - self.size_x // 2 , self.y - self.size_y // 2 , self.size_x, self.size_y)
         pygame.draw.rect(WIN, "blue", upgrade_rect)
-        upgrade_text = font.render(f"{self.name} - Cost: {self.cost} - Gain: {self.addition}", True, "white")
-        WIN.blit(upgrade_text, (self.x - 50, self.y + 10))
+        upgrade_text_name = font.render(f"{self.name}", True, "white")
+        upgrade_text_cost = font.render(f"Cost: {self.cost}", True, "white")
+        upgrade_text_effect = font.render(f"Gain: {self.addition}", True, "white")
+        WIN.blit(upgrade_text_name, (self.x - 50, self.y + 15))
+        WIN.blit(upgrade_text_cost, (self.x - 50, self.y + 45))
+        WIN.blit(upgrade_text_effect, (self.x - 50, self.y + 75))
 
         if upgrade_rect.collidepoint(pygame.mouse.get_pos()):
             pygame.draw.rect(WIN, "green", upgrade_rect, 2)

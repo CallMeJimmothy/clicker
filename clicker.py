@@ -84,6 +84,9 @@ class Upgrade:
 upgrade1 = Upgrade("Upgrade 1", 10, 1, "Increases score gain by 1",100, 100, 100, 50)
 upgrade2 = Upgrade("Upgrade 2", 100, 5, "Increases score gain by 5",100, 250, 100, 50)
 upgrade3 = Upgrade("Upgrade 3", 1000, 50, "Increases score gain by 50",100, 400, 100, 50)
+upgrade4 = Upgrade("Upgrade 4", 10000, 500, "Increases score gain by 500",100, 550, 100, 50)
+
+upgradelist = [upgrade1, upgrade2, upgrade3, upgrade4]
 
 #---------------------------------------------------------
 #clicker
@@ -164,7 +167,7 @@ def main():
                 clicked = True  # Prevent multiple clicks
                 print("clicker clicked, score increased to:", game_state.score)
             
-            for upgrade in [upgrade1, upgrade2, upgrade3]:
+            for upgrade in upgradelist:
                 if upgrade.draw(mouse_pos, mouse_pressed, clicked, game_state):
                     clicked = True
                     print(f"Upgrade {upgrade.name} applied. New score gain: {game_state.new_score}")

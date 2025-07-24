@@ -23,6 +23,7 @@ class GameState:
         self.score = 0
         self.new_score = 1
         self.win_menu = "Start Screen"
+        self.upgradesmenu = "Manual upgrades"
 
 game_state = GameState()
 
@@ -81,12 +82,13 @@ class Upgrade:
         
         
 # upgrade - upgrade("name", cost, addition, effect, x, y, size_x, size_y)
-upgrade1 = Upgrade("Upgrade 1", 10, 1, "Increases score gain by 1",100, 100, 100, 50)
-upgrade2 = Upgrade("Upgrade 2", 100, 5, "Increases score gain by 5",100, 250, 100, 50)
-upgrade3 = Upgrade("Upgrade 3", 1000, 50, "Increases score gain by 50",100, 400, 100, 50)
-upgrade4 = Upgrade("Upgrade 4", 10000, 500, "Increases score gain by 500",100, 550, 100, 50)
+upgrade1 = Upgrade("Upgrade 1", 10, 1, "Increases score gain by 1",100, 150, 100, 50)
+upgrade2 = Upgrade("Upgrade 2", 100, 5, "Increases score gain by 5",100, 300, 100, 50)
+upgrade3 = Upgrade("Upgrade 3", 1_000, 50, "Increases score gain by 50",100, 450, 100, 50)
+upgrade4 = Upgrade("Upgrade 4", 10_000, 500, "Increases score gain by 500",100, 600, 100, 50)
+upgrade5 = Upgrade("Upgrade 5", 1_000_000, 10000, "Increases score gain by 10,000",100, 750, 100, 50)
 
-upgradelist = [upgrade1, upgrade2, upgrade3, upgrade4]
+upgradelist = [upgrade1, upgrade2, upgrade3, upgrade4, upgrade5]
 
 #---------------------------------------------------------
 #clicker

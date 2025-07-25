@@ -179,9 +179,9 @@ def main():
                 print(f"clicker clicked, score increased to: {game_state.score:,}")
 
             if game_state.upgradesmenu == "Manual upgrades":
-                pygame.draw.rect(WIN, "pink", (25, 100, 300, 800))
+                pygame.draw.rect(WIN, "pink", (25, 100, 300, 850))
                 for upgrade in upgradelist:
-                    if upgrade.y < 100 or upgrade.y < 850:
+                    if upgrade.y > 100 and upgrade.y < 850:
                         if upgrade.draw(mouse_pos, mouse_pressed, clicked, game_state):
                             clicked = True
                             print(f"Upgrade {upgrade.name} applied. New score gain: {game_state.new_score:,}")

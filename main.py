@@ -62,8 +62,8 @@ class Upgrade:
         upgrade_rect = pygame.Rect(self.x - self.size_x // 2 , self.y - self.size_y // 2 , self.size_x, self.size_y)
         pygame.draw.rect(WIN, "blue", upgrade_rect)
         upgrade_text_name = font.render(f"{self.name}", True, "white")
-        upgrade_text_cost = font.render(f"Cost: {self.cost}", True, "white")
-        upgrade_text_effect = font.render(f"Gain: {self.addition}", True, "white")
+        upgrade_text_cost = font.render(f"Cost: {self.cost:,}", True, "white")
+        upgrade_text_effect = font.render(f"Gain: {self.addition:,}", True, "white")
         WIN.blit(upgrade_text_name, (self.x - 50, self.y + 15))
         WIN.blit(upgrade_text_cost, (self.x - 50, self.y + 45))
         WIN.blit(upgrade_text_effect, (self.x - 50, self.y + 75))
@@ -86,8 +86,10 @@ upgrade2 = Upgrade("Upgrade 2", 100, 5, "Increases score gain by 5",100, 300, 10
 upgrade3 = Upgrade("Upgrade 3", 1_000, 50, "Increases score gain by 50",100, 450, 100, 50)
 upgrade4 = Upgrade("Upgrade 4", 10_000, 500, "Increases score gain by 500",100, 600, 100, 50)
 upgrade5 = Upgrade("Upgrade 5", 1_000_000, 10000, "Increases score gain by 10,000",100, 750, 100, 50)
+upgrade6 = Upgrade("Upgrade 6", 10_000_000, 100000, "Increases score gain by 100,000",100, 900, 100, 50)
 
-upgradelist = [upgrade1, upgrade2, upgrade3, upgrade4, upgrade5]
+
+upgradelist = [upgrade1, upgrade2, upgrade3, upgrade4, upgrade5, upgrade6]
 
 #---------------------------------------------------------
 #clicker
@@ -118,7 +120,7 @@ class clicker:
 #---------------------------------------------------------
 
 def score_display(game_state):
-    score_text = font.render(f"Score: {game_state.score}", True, "white")
+    score_text = font.render(f"Score: {game_state.score:,}", True, "white")
     WIN.blit(score_text, (0, 0))
 
 def start_screen():
@@ -135,6 +137,7 @@ def main():
     CLOCK = pygame.time.Clock()
     clicked = False
     timer = 0
+    ten_second_timer = 0
 
     # Create a clicker instance (centered)
     my_clicker = clicker(WIDTH // 2 - 100, HEIGHT // 2 - 100, 200, 200)
@@ -173,21 +176,29 @@ def main():
             if my_clicker.draw_clicker(mouse_pos, mouse_pressed, clicked):
                 game_state.score += game_state.new_score
                 clicked = True  # Prevent multiple clicks
-                print("clicker clicked, score increased to:", game_state.score)
+                print(f"clicker clicked, score increased to: {game_state.score:,}")
             
             for upgrade in upgradelist:
                 if upgrade.draw(mouse_pos, mouse_pressed, clicked, game_state):
                     clicked = True
-                    print(f"Upgrade {upgrade.name} applied. New score gain: {game_state.new_score}")
+                    print(f"Upgrade {upgrade.name} applied. New score gain: {game_state.new_score:,}")
 
             # Display score in game mode
             score_display(game_state)
         
         timer += 1 # Increment timer every frame
+        ten_second_timer += 1 # increment ten second timer every frame
+
+        # 1 second timer
         if timer >= FPS: # Reset timer every second
             timer = 0
-            print(f"Current score: {game_state.score}, Score gain per click: {game_state.new_score}")
 
+        # 10 second timer
+        if ten_second_timer >= FPS * 10: # Reset timer every second
+            ten_second_timer = 0
+            print(f"Current score: {game_state.score:,}, Score gain per click: {game_state.new_score:,}")
+            for upgrade in upgradelist:
+                print(f"{upgrade.name} - amount bought: {upgrade.amount:,}")
         pygame.display.flip()
         
 #---------------------------------------------------------

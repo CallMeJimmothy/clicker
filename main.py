@@ -147,11 +147,18 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 RUN = False
+
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if not clicked:
                     clicked = True  # Mouse button was pressed
+
             elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 clicked = False  # Mouse button was released
+            
+            # move upgrades up or down with mouse wheel
+            elif event.type == pygame.MOUSEWHEEL and game_state.upgradesmenu == "Manual upgrades":
+                for upgrade in upgradelist:
+                    upgrade.y += event.y * 20
 
         WIN.fill("black")
 

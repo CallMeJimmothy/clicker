@@ -78,9 +78,8 @@ class Upgrade:
                 print(f"{self.name} purchased! New score gain: {game_state.new_score}")
                 return True
             else:
-                print(f"Not enough score to purchase {self.name}.")
-        
-        
+                print(f"Not enough score to purchase {self.name}.")    
+   
 # upgrade - upgrade("name", cost, addition, effect, x, y, size_x, size_y)
 upgrade1 = Upgrade("Upgrade 1", 10, 1, "Increases score gain by 1",100, 150, 100, 50)
 upgrade2 = Upgrade("Upgrade 2", 100, 5, "Increases score gain by 5",100, 300, 100, 50)

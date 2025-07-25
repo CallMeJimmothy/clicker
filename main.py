@@ -1,4 +1,4 @@
-version = "0.1.2"
+version = "0.1.3"
 #---------------------------------------------------------
 # setup
 #---------------------------------------------------------
@@ -177,11 +177,14 @@ def main():
                 game_state.score += game_state.new_score
                 clicked = True  # Prevent multiple clicks
                 print(f"clicker clicked, score increased to: {game_state.score:,}")
-            
-            for upgrade in upgradelist:
-                if upgrade.draw(mouse_pos, mouse_pressed, clicked, game_state):
-                    clicked = True
-                    print(f"Upgrade {upgrade.name} applied. New score gain: {game_state.new_score:,}")
+
+            if game_state.upgradesmenu == "Manual upgrades":
+                pygame.draw.rect(WIN, "pink", (25, 100, 300, 800))
+                for upgrade in upgradelist:
+                    if upgrade.y < 100 or upgrade.y < 850:
+                        if upgrade.draw(mouse_pos, mouse_pressed, clicked, game_state):
+                            clicked = True
+                            print(f"Upgrade {upgrade.name} applied. New score gain: {game_state.new_score:,}")
 
             # Display score in game mode
             score_display(game_state)

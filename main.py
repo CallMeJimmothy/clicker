@@ -91,6 +91,40 @@ upgrade6 = Upgrade("Upgrade 6", 10_000_000, 100000, "Increases score gain by 100
 
 upgradelist = [upgrade1, upgrade2, upgrade3, upgrade4, upgrade5, upgrade6]
 
+#----------------------------------------------------------
+#automatic upgrades
+#---------------------------------------------------------
+
+class AutomaticUpgrade:
+    def __init__(self, name, cost, addition, effect, x, y, size_x, size_y):
+        self.name = name
+        self.cost = cost
+        self.addition = addition
+        self.effect = effect
+        self.amount = 0
+        self.x = x
+        self.y = y
+        self.size_x = size_x
+        self.size_y = size_y
+
+    def apply_upgrade(self, game_state):
+        game_state.new_score += self.addition
+        self.amount += 1
+    
+    def can_afford(self, game_state):
+        return game_state.score >= self.cost
+
+    def purchase(self, game_state):
+        if self.can_afford(game_state):
+            game_state.score -= self.cost
+            self.apply_upgrade(game_state)
+            return True
+        return False
+    
+    def draw(self, mouse_pos, mouse_pressed, clicked, game_state):
+        # Similar to Upgrade class but for automatic upgrades
+        pass  # Implement as needed for automatic upgrades
+
 #---------------------------------------------------------
 #clicker
 #---------------------------------------------------------

@@ -43,6 +43,11 @@ class Upgrade:
         self.y = y
         self.size_x = size_x
         self.size_y = size_y
+        # Animation properties
+        self.click_animation_time = 0
+        self.click_animation_duration = 10  # frames
+        self.is_animating = False
+        self.was_purchased = False  # Track successful purchases
 
     def apply_upgrade(self, game_state):
         game_state.new_score += self.addition
@@ -55,30 +60,53 @@ class Upgrade:
         if self.can_afford(game_state):
             game_state.score -= self.cost
             self.apply_upgrade(game_state)
+            self.was_purchased = True  # Mark as purchased
             return True
         return False
     
     def draw(self, mouse_pos, mouse_pressed, clicked, game_state):
-        upgrade_rect = pygame.Rect(self.x - self.size_x // 2 , self.y - self.size_y // 2 , self.size_x, self.size_y)
-        pygame.draw.rect(WIN, "blue", upgrade_rect)
+        upgrade_rect = pygame.Rect(self.x - self.size_x // 2, self.y - self.size_y // 2, self.size_x, self.size_y)
+        
+        # Animation logic
+        if self.is_animating:
+            # Draw animation based on purchase success
+            if self.was_purchased:
+                pygame.draw.rect(WIN, "pink", upgrade_rect)
+                shrink_factor = (self.click_animation_time / self.click_animation_duration)
+                shrink_amount = int(20 * (1 - shrink_factor))
+                pygame.draw.rect(WIN, "green", upgrade_rect.inflate(-shrink_amount, -shrink_amount))
+            else:
+                pygame.draw.rect(WIN, "pink", upgrade_rect)
+                shrink_factor = (self.click_animation_time / self.click_animation_duration)
+                shrink_amount = int(20 * (1 - shrink_factor))
+                pygame.draw.rect(WIN, "red", upgrade_rect.inflate(-shrink_amount, -shrink_amount))
+            
+            self.click_animation_time -= 1
+            if self.click_animation_time <= 0:
+                self.is_animating = False
+                self.was_purchased = False
+        else:
+            # Normal drawing
+            base_color = "blue"
+            if upgrade_rect.collidepoint(mouse_pos):
+                base_color = "green"
+            pygame.draw.rect(WIN, base_color, upgrade_rect)
+
+        # Text rendering (always on top)
         upgrade_text_name = font.render(f"{self.name}", True, "white")
         upgrade_text_cost = font.render(f"Cost: {self.cost:,}", True, "white")
         upgrade_text_effect = font.render(f"Gain: {self.addition:,}", True, "white")
+
         WIN.blit(upgrade_text_name, (self.x - 50, self.y + 15))
         WIN.blit(upgrade_text_cost, (self.x - 50, self.y + 45))
         WIN.blit(upgrade_text_effect, (self.x - 50, self.y + 75))
 
-        if upgrade_rect.collidepoint(pygame.mouse.get_pos()):
-            pygame.draw.rect(WIN, "green", upgrade_rect, 2)
-        
+        # Handle clicks
         if upgrade_rect.collidepoint(mouse_pos) and mouse_pressed and not clicked:
-            if self.purchase(game_state):
-                pygame.draw.rect(WIN, "black", upgrade_rect)
-                pygame.draw.rect(WIN, "green", upgrade_rect.inflate(-20, -20))
-                print(f"{self.name} purchased! New score gain: {game_state.new_score}")
-                return True
-            else:
-                print(f"Not enough score to purchase {self.name}.")    
+            self.is_animating = True
+            self.click_animation_time = self.click_animation_duration
+            return self.purchase(game_state)
+        return False
    
 # upgrade - upgrade("name", cost, addition, effect, x, y, size_x, size_y)
 upgrade1 = Upgrade("Upgrade 1", 10, 1, "Increases score gain by 1",100, 150, 100, 50)
@@ -135,17 +163,42 @@ class clicker:
         self.y = y
         self.width = width
         self.height = height
+        self.is_animating = False
+        self.click_animation_duration = 10  # Duration of the click animation in frames
     
     def draw_clicker(self, mouse_pos, mouse_pressed, clicked):
         clicker_rect = pygame.Rect(self.x, self.y, self.width, self.height)
-        pygame.draw.rect(WIN, "white", clicker_rect)
-        if clicker_rect.collidepoint(mouse_pos):
-            pygame.draw.rect(WIN, "green", clicker_rect)
         
-        # Only return True if this is a new click (mouse pressed and wasn't clicked before)
+        # Default state (white)
+        base_color = "white"
+        hover_color = "green"
+        click_color = "black"
+        inner_click_color = "green"
+        
+        # Check if we're animating
+        if self.is_animating:
+            # Draw the click animation
+            pygame.draw.rect(WIN, click_color, clicker_rect)
+            # Calculate the shrinking size based on animation progress
+            shrink_factor = (self.click_animation_time / self.click_animation_duration)
+            shrink_amount = int(20 * (1 - shrink_factor))
+            pygame.draw.rect(WIN, inner_click_color, clicker_rect.inflate(-shrink_amount, -shrink_amount))
+            
+            # Update animation timer
+            self.click_animation_time -= 1
+            if self.click_animation_time <= 0:
+                self.is_animating = False
+        else:
+            # Normal drawing
+            if clicker_rect.collidepoint(mouse_pos):
+                pygame.draw.rect(WIN, hover_color, clicker_rect)
+            else:
+                pygame.draw.rect(WIN, base_color, clicker_rect)
+        
+        # Check for new clicks
         if clicker_rect.collidepoint(mouse_pos) and mouse_pressed and not clicked:
-            pygame.draw.rect(WIN, "black", clicker_rect)
-            pygame.draw.rect(WIN, "green", clicker_rect.inflate(-20, -20))
+            self.is_animating = True
+            self.click_animation_time = self.click_animation_duration
             return True
         return False
 
@@ -219,6 +272,8 @@ def main():
                         if upgrade.draw(mouse_pos, mouse_pressed, clicked, game_state):
                             clicked = True
                             print(f"Upgrade {upgrade.name} applied. New score gain: {game_state.new_score:,}")
+            
+
 
             # Display score in game mode
             score_display(game_state)

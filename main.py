@@ -22,6 +22,7 @@ class GameState:
     def __init__(self):
         self.score = 0
         self.new_score = 1
+        self.automatic_score_gain = 0
         self.win_menu = "Start Screen"
         self.upgradesmenu = "Manual upgrades"
 
@@ -134,9 +135,14 @@ class AutomaticUpgrade:
         self.y = y
         self.size_x = size_x
         self.size_y = size_y
+        # Animation properties
+        self.click_animation_time = 0
+        self.click_animation_duration = 10  # frames
+        self.is_animating = False
+        self.was_purchased = False  # Track successful purchases
 
     def apply_upgrade(self, game_state):
-        game_state.new_score += self.addition
+        game_state.automatic_score_gain += self.addition
         self.amount += 1
     
     def can_afford(self, game_state):
@@ -146,12 +152,57 @@ class AutomaticUpgrade:
         if self.can_afford(game_state):
             game_state.score -= self.cost
             self.apply_upgrade(game_state)
+            self.was_purchased = True  # Mark as purchased
             return True
         return False
     
     def draw(self, mouse_pos, mouse_pressed, clicked, game_state):
-        # Similar to Upgrade class but for automatic upgrades
-        pass  # Implement as needed for automatic upgrades
+        upgrade_rect = pygame.Rect(self.x - self.size_x // 2, self.y - self.size_y // 2, self.size_x, self.size_y)
+        
+        # Animation logic
+        if self.is_animating:
+            # Draw animation based on purchase success
+            if self.was_purchased:
+                pygame.draw.rect(WIN, "pink", upgrade_rect)
+                shrink_factor = (self.click_animation_time / self.click_animation_duration)
+                shrink_amount = int(20 * (1 - shrink_factor))
+                pygame.draw.rect(WIN, "green", upgrade_rect.inflate(-shrink_amount, -shrink_amount))
+            else:
+                pygame.draw.rect(WIN, "pink", upgrade_rect)
+                shrink_factor = (self.click_animation_time / self.click_animation_duration)
+                shrink_amount = int(20 * (1 - shrink_factor))
+                pygame.draw.rect(WIN, "red", upgrade_rect.inflate(-shrink_amount, -shrink_amount))
+            
+            self.click_animation_time -= 1
+            if self.click_animation_time <= 0:
+                self.is_animating = False
+                self.was_purchased = False
+        else:
+            # Normal drawing
+            base_color = "blue"
+            if upgrade_rect.collidepoint(mouse_pos):
+                base_color = "green"
+            pygame.draw.rect(WIN, base_color, upgrade_rect)
+
+        # Text rendering (always on top)
+        upgrade_text_name = font.render(f"{self.name}", True, "white")
+        upgrade_text_cost = font.render(f"Cost: {self.cost:,}", True, "white")
+        upgrade_text_effect = font.render(f"Gain: {self.addition:,} per second", True, "white")
+
+        WIN.blit(upgrade_text_name, (self.x - 50, self.y + 15))
+        WIN.blit(upgrade_text_cost, (self.x - 50, self.y + 45))
+        WIN.blit(upgrade_text_effect, (self.x - 50, self.y + 75))
+
+        # Handle clicks
+        if upgrade_rect.collidepoint(mouse_pos) and mouse_pressed and not clicked:
+            self.is_animating = True
+            self.click_animation_time = self.click_animation_duration
+            return self.purchase(game_state)
+        return False
+
+automaticupgrade1 = AutomaticUpgrade("Auto Upgrade 1", 100, 1, "Increases score gain by 1 every second", 100, 150, 100, 50)
+
+automaticupgradeslist = [automaticupgrade1, ]
 
 #---------------------------------------------------------
 #clicker
@@ -259,12 +310,12 @@ def main():
                 clicked = True
         
         elif game_state.win_menu == "Game":
-            # Check if clicker was clicked and update score
+             # Check if clicker was clicked and update score
             if my_clicker.draw_clicker(mouse_pos, mouse_pressed, clicked):
                 game_state.score += game_state.new_score
                 clicked = True  # Prevent multiple clicks
                 print(f"clicker clicked, score increased to: {game_state.score:,}")
-
+            
             if game_state.upgradesmenu == "Manual upgrades":
                 pygame.draw.rect(WIN, "pink", (25, 100, 300, 850))
                 for upgrade in upgradelist:
@@ -273,7 +324,23 @@ def main():
                             clicked = True
                             print(f"Upgrade {upgrade.name} applied. New score gain: {game_state.new_score:,}")
             
-
+            elif game_state.upgradesmenu == "Automatic upgrades":
+                pygame.draw.rect(WIN, "light pink", (25, 100, 300, 850))
+                for upgrade in automaticupgradeslist:
+                    if upgrade.y > 100 and upgrade.y < 850:
+                        if upgrade.draw(mouse_pos, mouse_pressed, clicked, game_state):
+                            clicked = True
+                            print(f"Automatic Upgrade {upgrade.name} applied. New score gain: {game_state.automatic_score_gain:,}")
+            
+            manualupgrade_switch = pygame.draw.rect(WIN, "purple", (25, 50, 150, 50))
+            if manualupgrade_switch.collidepoint(mouse_pos) and mouse_pressed and not clicked:
+                game_state.upgradesmenu = "Manual upgrades"
+                clicked = True
+            
+            automaticupgrade_switch = pygame.draw.rect(WIN, "green", (175, 50, 150, 50))
+            if automaticupgrade_switch.collidepoint(mouse_pos) and mouse_pressed and not clicked:
+                game_state.upgradesmenu = "Automatic upgrades"
+                clicked = True
 
             # Display score in game mode
             score_display(game_state)
@@ -283,6 +350,8 @@ def main():
 
         # 1 second timer
         if timer >= FPS: # Reset timer every second
+            if game_state.automatic_score_gain > 0:
+                game_state.score += game_state.automatic_score_gain
             timer = 0
 
         # 10 second timer
@@ -290,6 +359,8 @@ def main():
             ten_second_timer = 0
             print(f"Current score: {game_state.score:,}, Score gain per click: {game_state.new_score:,}")
             for upgrade in upgradelist:
+                print(f"{upgrade.name} - amount bought: {upgrade.amount:,}")
+            for upgrade in automaticupgradeslist:
                 print(f"{upgrade.name} - amount bought: {upgrade.amount:,}")
         pygame.display.flip()
         

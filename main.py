@@ -281,7 +281,7 @@ def main():
     my_clicker = clicker(WIDTH // 2 - 100, HEIGHT // 2 - 100, 200, 200)
 
     while RUN:
-        CLOCK.tick(FPS)
+        delta_time = CLOCK.tick(FPS) / 1000
         mouse_pressed = pygame.mouse.get_pressed()[0]
         mouse_pos = pygame.mouse.get_pos()
 
@@ -345,17 +345,17 @@ def main():
             # Display score in game mode
             score_display(game_state)
         
-        timer += 1 # Increment timer every frame
-        ten_second_timer += 1 # increment ten second timer every frame
+        timer += delta_time # Increment timer every frame
+        ten_second_timer += delta_time # increment ten second timer every frame
 
         # 1 second timer
-        if timer >= FPS: # Reset timer every second
+        if timer >= 1: # Reset timer every second
             if game_state.automatic_score_gain > 0:
                 game_state.score += game_state.automatic_score_gain
             timer = 0
 
         # 10 second timer
-        if ten_second_timer >= FPS * 10: # Reset timer every second
+        if ten_second_timer >= 10: # Reset timer every second
             ten_second_timer = 0
             print(f"Current score: {game_state.score:,}, Score gain per click: {game_state.new_score:,}")
             for upgrade in upgradelist:

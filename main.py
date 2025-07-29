@@ -34,6 +34,8 @@ game_state = GameState()
 #---------------------------------------------------------
 
 class Upgrade:
+    instances = []
+
     def __init__(self, name, cost, addition, effect, x, y, size_x, size_y):
         self.name = name
         self.cost = cost
@@ -44,6 +46,7 @@ class Upgrade:
         self.y = y
         self.size_x = size_x
         self.size_y = size_y
+        Upgrade.instances.append(self)  # Register instance for tracking
         # Animation properties
         self.click_animation_time = 0
         self.click_animation_duration = 10  # frames
@@ -117,14 +120,13 @@ upgrade4 = Upgrade("Upgrade 4", 10_000, 500, "Increases score gain by 500",100, 
 upgrade5 = Upgrade("Upgrade 5", 1_000_000, 10000, "Increases score gain by 10,000",100, 750, 100, 50)
 upgrade6 = Upgrade("Upgrade 6", 10_000_000, 100000, "Increases score gain by 100,000",100, 900, 100, 50)
 
-
-upgradelist = [upgrade1, upgrade2, upgrade3, upgrade4, upgrade5, upgrade6]
-
 #----------------------------------------------------------
 #automatic upgrades
 #---------------------------------------------------------
 
 class AutomaticUpgrade:
+    instances = []
+
     def __init__(self, name, cost, addition, effect, x, y, size_x, size_y):
         self.name = name
         self.cost = cost
@@ -135,6 +137,7 @@ class AutomaticUpgrade:
         self.y = y
         self.size_x = size_x
         self.size_y = size_y
+        AutomaticUpgrade.instances.append(self)  # Register instance for tracking
         # Animation properties
         self.click_animation_time = 0
         self.click_animation_duration = 10  # frames
@@ -201,8 +204,8 @@ class AutomaticUpgrade:
         return False
 
 automaticupgrade1 = AutomaticUpgrade("Auto Upgrade 1", 100, 1, "Increases score gain by 1 every second", 100, 150, 100, 50)
-
-automaticupgradeslist = [automaticupgrade1, ]
+automaticupgrade2 = AutomaticUpgrade("Auto Upgrade 2", 1_000, 10, "Increases score gain by 5 every second", 100, 300, 100, 50)
+automaticupgrade3 = AutomaticUpgrade("Auto Upgrade 3", 10_000, 75, "Increases score gain by 50 every second", 100, 450, 100, 50)
 
 #---------------------------------------------------------
 #clicker
@@ -298,7 +301,11 @@ def main():
             
             # move upgrades up or down with mouse wheel
             elif event.type == pygame.MOUSEWHEEL and game_state.upgradesmenu == "Manual upgrades":
-                for upgrade in upgradelist:
+                for upgrade in Upgrade.instances:
+                    upgrade.y += event.y * 20
+            
+            elif event.type == pygame.MOUSEWHEEL and game_state.upgradesmenu == "Automatic upgrades":
+                for upgrade in AutomaticUpgrade.instances:
                     upgrade.y += event.y * 20
 
         WIN.fill("black")
@@ -318,7 +325,7 @@ def main():
             
             if game_state.upgradesmenu == "Manual upgrades":
                 pygame.draw.rect(WIN, "pink", (25, 100, 300, 850))
-                for upgrade in upgradelist:
+                for upgrade in Upgrade.instances:
                     if upgrade.y > 100 and upgrade.y < 850:
                         if upgrade.draw(mouse_pos, mouse_pressed, clicked, game_state):
                             clicked = True
@@ -326,7 +333,7 @@ def main():
             
             elif game_state.upgradesmenu == "Automatic upgrades":
                 pygame.draw.rect(WIN, "light pink", (25, 100, 300, 850))
-                for upgrade in automaticupgradeslist:
+                for upgrade in AutomaticUpgrade.instances:
                     if upgrade.y > 100 and upgrade.y < 850:
                         if upgrade.draw(mouse_pos, mouse_pressed, clicked, game_state):
                             clicked = True
@@ -358,9 +365,9 @@ def main():
         if ten_second_timer >= 10: # Reset timer every second
             ten_second_timer = 0
             print(f"Current score: {game_state.score:,}, Score gain per click: {game_state.new_score:,}")
-            for upgrade in upgradelist:
+            for upgrade in Upgrade.instances:
                 print(f"{upgrade.name} - amount bought: {upgrade.amount:,}")
-            for upgrade in automaticupgradeslist:
+            for upgrade in AutomaticUpgrade.instances:
                 print(f"{upgrade.name} - amount bought: {upgrade.amount:,}")
         pygame.display.flip()
         

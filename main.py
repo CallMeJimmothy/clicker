@@ -3,6 +3,9 @@ version = "0.1.3"
 # setup
 #---------------------------------------------------------
 import pygame
+import random
+import math
+import json
 pygame.init()
 pygame.font.init()
 
@@ -255,6 +258,7 @@ class clicker:
             self.click_animation_time = self.click_animation_duration
             return True
         return False
+
 
 #---------------------------------------------------------
 #draw modules

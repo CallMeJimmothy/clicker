@@ -2,3 +2,26 @@
 __pycache__/
 *.py[cod]
 *$py.class
+
+# Virtual environment files
+venv/
+.env/
+env/
+ENV/
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Game saves (optional)
+/saves/*
+!saves/README.md  # Keep this if you have it
+
+# Debug logs
+*.log

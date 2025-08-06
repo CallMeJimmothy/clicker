@@ -5,8 +5,8 @@
 import pygame
 from engine import engine
 from game_state import GameState
-from upgrades import Upgrade, AutomaticUpgrade
-from clicker import clicker
+from upgrades import *
+from clicker import *
 from ui import score_display, start_screen
 from Constants import WIDTH, HEIGHT, FPS
 

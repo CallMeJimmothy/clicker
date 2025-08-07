@@ -80,12 +80,12 @@ class Upgrade:
         return False
    
 # upgrade - upgrade("name", cost, addition, effect, x, y, size_x, size_y)
-upgrade1 = Upgrade("Upgrade 1", 10, 1, "Increases score gain by 1",100, 150, 100, 50)
-upgrade2 = Upgrade("Upgrade 2", 100, 5, "Increases score gain by 5",100, 300, 100, 50)
-upgrade3 = Upgrade("Upgrade 3", 1_000, 50, "Increases score gain by 50",100, 450, 100, 50)
-upgrade4 = Upgrade("Upgrade 4", 10_000, 500, "Increases score gain by 500",100, 600, 100, 50)
-upgrade5 = Upgrade("Upgrade 5", 1_000_000, 10000, "Increases score gain by 10,000",100, 750, 100, 50)
-upgrade6 = Upgrade("Upgrade 6", 10_000_000, 100000, "Increases score gain by 100,000",100, 900, 100, 50)
+upgrade1 = Upgrade("Upgrade 1", 10, 1, "Increases score gain by 1",100, 1*150, 100, 50)
+upgrade2 = Upgrade("Upgrade 2", 100, 5, "Increases score gain by 5",100, 2*150, 100, 50)
+upgrade3 = Upgrade("Upgrade 3", 1_000, 50, "Increases score gain by 50",100, 3*150, 100, 50)
+upgrade4 = Upgrade("Upgrade 4", 10_000, 500, "Increases score gain by 500",100, 4*150, 100, 50)
+upgrade5 = Upgrade("Upgrade 5", 1_000_000, 10000, "Increases score gain by 10,000",100, 5*150, 100, 50)
+upgrade6 = Upgrade("Upgrade 6", 10_000_000, 100000, "Increases score gain by 100,000",100, 6*150, 100, 50)
 
 class AutomaticUpgrade:
     instances = []
@@ -166,6 +166,8 @@ class AutomaticUpgrade:
             return self.purchase(game_state)
         return False
 
-automaticupgrade1 = AutomaticUpgrade("Auto Upgrade 1", 100, 1, "Increases score gain by 1 every second", 100, 150, 100, 50)
-automaticupgrade2 = AutomaticUpgrade("Auto Upgrade 2", 1_000, 10, "Increases score gain by 5 every second", 100, 300, 100, 50)
-automaticupgrade3 = AutomaticUpgrade("Auto Upgrade 3", 10_000, 75, "Increases score gain by 50 every second", 100, 450, 100, 50)
+automaticupgrade1 = AutomaticUpgrade("Auto Upgrade 1", 100, 1, "Increases score gain by 1 every second", 100, 1*150, 100, 50)
+automaticupgrade2 = AutomaticUpgrade("Auto Upgrade 2", 1_000, 10, "Increases score gain by 5 every second", 100, 2*150, 100, 50)
+automaticupgrade3 = AutomaticUpgrade("Auto Upgrade 3", 10_000, 75, "Increases score gain by 50 every second", 100, 3*150, 100, 50)
+automaticupgrade4 = AutomaticUpgrade("Auto Upgrade 4", 100_000, 500, "Increases score gain by 500 every second", 100, 4*150, 100, 50)
+automaticupgrade5 = AutomaticUpgrade("Auto Upgrade 5", 1_000_000, 5000, "Increases score gain by 5,000 every second", 100, 5*150, 100, 50)

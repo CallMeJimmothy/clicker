@@ -102,6 +102,8 @@ def main():
         if ten_second_timer >= 10:  # 10-second debug output
             ten_second_timer = 0
             print(f"Score: {game_state.score:,} | Click Power: {game_state.new_score:,} | Auto: {game_state.automatic_score_gain:,}/s")
+            for upgrade in Upgrade.instances + AutomaticUpgrade.instances:
+                print(f"{upgrade.name} | purchased: {upgrade.amount}")
 
         pygame.display.flip()
 

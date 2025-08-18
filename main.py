@@ -3,6 +3,7 @@
 #--------------------------------------
 
 import pygame
+import json
 from engine import engine
 from game_state import GameState
 from upgrades import *
@@ -10,17 +11,24 @@ from clicker import *
 from ui import score_display, start_screen
 from Constants import WIDTH, HEIGHT, FPS
 
+
 #--------------------------------------
 #def main loop
 #--------------------------------------
 
 def main():
+
     # Initialize game state and objects
     game_state = GameState()
     my_clicker = clicker(WIDTH // 2 - 100, HEIGHT // 2 - 100, 200, 200)
+    clock = pygame.time.Clock()
+    try:
+        with open("Clickerscore.txt", "r") as score_file:
+            data = json.load(score_file)
+    except:
+        print("No save file found, starting a new game.")
     
     # Game loop variables
-    clock = pygame.time.Clock()
     running = True
     clicked = False
     timer = 0
@@ -34,20 +42,29 @@ def main():
         # Event handling
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                with open("Clickerscore.txt", "w") as score_file:
+                    json.dump(data, score_file)
                 running = False
 
-            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if not clicked:
                     clicked = True
 
-            elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 clicked = False
             
             # Mouse wheel scrolling
-            elif event.type == pygame.MOUSEWHEEL:
+            if event.type == pygame.MOUSEWHEEL:
                 upgrade_list = Upgrade.instances if game_state.upgradesmenu == "Manual upgrades" else AutomaticUpgrade.instances
                 for upgrade in upgrade_list:
                     upgrade.y += event.y * 20
+        
+        #data holding
+        data = {
+            "score": game_state.score,
+            "new_score": game_state.new_score,
+            "automatic_score_gain": game_state.automatic_score_gain,
+        }
 
         # Clear screen
         engine.win.fill("black")
@@ -90,6 +107,7 @@ def main():
             # Display score
             score_display(game_state)
         
+
         # Timers
         timer += delta_time
         ten_second_timer += delta_time
@@ -104,6 +122,9 @@ def main():
             print(f"Score: {game_state.score:,} | Click Power: {game_state.new_score:,} | Auto: {game_state.automatic_score_gain:,}/s")
             for upgrade in Upgrade.instances + AutomaticUpgrade.instances:
                 print(f"{upgrade.name} | purchased: {upgrade.amount}")
+            
+            with open("Clickerscore.txt", "w") as score_file:
+                json.dump(data, score_file)
 
         pygame.display.flip()
 

@@ -1,5 +1,3 @@
-import json
-import os
 from Constants import SAVES_FOLDER, DEFAULT_SAVE, VERSION
 
 class GameState:

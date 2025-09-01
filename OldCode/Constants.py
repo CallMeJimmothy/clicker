@@ -1,6 +1,0 @@
-WIDTH, HEIGHT = 1500, 1000
-FPS = 120
-FONT_SIZE = 35
-SAVES_FOLDER = "saves"
-DEFAULT_SAVE = "savegame.json"
-VERSION = "0.1.4"

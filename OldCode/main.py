@@ -4,7 +4,7 @@
 
 import pygame
 import json
-from engine import engine
+from OldCode.engine import engine
 from game_state import GameState
 from upgrades import *
 from clicker import *
@@ -25,6 +25,9 @@ def main():
     try:
         with open("Clickerscore.txt", "r") as score_file:
             data = json.load(score_file)
+            game_state.score = data.get("score")
+            game_state.new_score = data.get("new_score")
+            game_state.automatic_score_gain = data.get("automatic_score_gain")
     except:
         print("No save file found, starting a new game.")
     

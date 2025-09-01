@@ -6,15 +6,6 @@ Once you take it you keep it!
 
 ---
 
-### 📃 Instructions
-(if python is not installed)
-- run python-amd64.exe
-- windows + r
-- type cmd
-- pip install -r requirements txt
-
----
-
 ### 📅 Updates
 
 - Weekly updates

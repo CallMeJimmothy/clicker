@@ -6,6 +6,18 @@ Once you take it you keep it!
 
 ---
 
+### 📃 Tutorial
+- (if python is not installed)
+- open up prep folder and run python-"".exe
+- once open first select at the bottom of the window to add to path
+- run the first option
+- once finished run the clicker.bat file
+- enjoy
+
+- (bare in mind that if uv is installed it will use uv for the requirements)
+
+---
+
 ### 📅 Updates
 
 - Weekly updates

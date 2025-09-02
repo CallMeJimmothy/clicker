@@ -30,7 +30,8 @@ class Upgrades:
         default_color = "white"
         hover_color = (46, 139, 87) # Dark Sea Green
         click_colour = (46, 139, 87) # Dark Sea Green
-        text_color = "black"
+        text_color = "white"
+        upgrade_text = self.font.render(f"{self.name} (Cost: {self.cost}) | (addition: {self.power})", True, text_color)
 
         # scale factors
         hover_scale_factor = 1.1
@@ -82,8 +83,9 @@ class Upgrades:
             hover_rect = pygame.Rect(current_x, current_y, current_width, current_height)
             color = hover_color if self.rect.collidepoint(mouse_pos) else default_color
             pygame.draw.rect(engine.win, color, hover_rect)
+            engine.win.blit(upgrade_text, (hover_rect.x, hover_rect.y + 50))
         
         return False
 
 #upgrades
-Upgrades("Upgrade 1", WIDTH - 220, HEIGHT - 150, 200, 50, power=1, cost=10, upgrade_type="click")
+Upgrades("Upgrade 1", 30, 150, 250, 50, power=1, cost=10, upgrade_type="click")

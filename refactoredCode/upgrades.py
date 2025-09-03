@@ -98,4 +98,5 @@ class Upgrades:
                 game_state.automatic_score_gain += self.power
 
 #upgrades
-Upgrades("Upgrade 1", 30, 150, 250, 50, power=1, cost=10, upgrade_type="click")
+upgrade1 = Upgrades("Upgrade 1", 30, 150, 250, 50, power=1, cost=10, upgrade_type="click")
+upgrade2 = Upgrades("Upgrade 2", 30, 250, 250, 50, power=5, cost=50, upgrade_type="click")

@@ -2,6 +2,7 @@ import pygame
 import math
 from Constants import HEIGHT, WIDTH
 from engine import engine
+from gamestate import game_state
 
 class Upgrades:
     upgrades_instances = []
@@ -86,6 +87,15 @@ class Upgrades:
             engine.win.blit(upgrade_text, (hover_rect.x, hover_rect.y + 50))
         
         return False
+    
+    def purchase_upgrade(self):
+        if game_state.score >= self.cost:
+            game_state.score -= self.cost
+            self.amount += 1
+            if self.upgrade_type == "click":
+                game_state.new_score += self.power
+            if self.upgrade_type == "auto":
+                game_state.automatic_score_gain += self.power
 
 #upgrades
 Upgrades("Upgrade 1", 30, 150, 250, 50, power=1, cost=10, upgrade_type="click")

@@ -44,6 +44,7 @@ def main():
         
             if clicker.draw_clicker(game_state.mouse_pos, game_state.mouse_pressed, game_state.clicked):
                 game_state.clicked = True
+                game_state.score += game_state.new_score
         
             for upgrade in Upgrades.upgrades_instances:
                 if upgrade.draw_upgrade(game_state.mouse_pos, game_state.mouse_pressed, game_state.clicked):
@@ -52,6 +53,10 @@ def main():
         # if statement inside for start screen
         start_screen()
 
+        if game_state.win_menu == "clicker":
+            # Draw the score
+            score_text = engine.font.render(f"Score: {int(game_state.score)}", True, (255, 255, 255))
+            engine.win.blit(score_text, (10, 10))
 
         pygame.display.flip()
 #--------------------------------------

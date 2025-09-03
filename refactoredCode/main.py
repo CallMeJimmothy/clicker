@@ -46,7 +46,8 @@ def main():
                 game_state.clicked = True
         
             for upgrade in Upgrades.upgrades_instances:
-                upgrade.draw_upgrade(game_state.mouse_pos, game_state.mouse_pressed, game_state.clicked)
+                if upgrade.draw_upgrade(game_state.mouse_pos, game_state.mouse_pressed, game_state.clicked):
+                    game_state.clicked = True
 
         # if statement inside for start screen
         start_screen()

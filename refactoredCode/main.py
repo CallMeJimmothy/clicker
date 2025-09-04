@@ -56,7 +56,7 @@ def main():
 
         if game_state.win_menu == "clicker":
             # Draw the score
-            score_text = engine.font.render(f"Score: {int(game_state.score)}", True, (255, 255, 255))
+            score_text = engine.font.render(f"Score: {int(game_state.score):,}", True, (255, 255, 255))
             engine.win.blit(score_text, (10, 10))
 
         pygame.display.flip()

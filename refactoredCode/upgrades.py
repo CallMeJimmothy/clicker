@@ -104,3 +104,6 @@ upgrade1 = Upgrades("Upgrade 1", 60, 150, 250, 50, power=1, cost=10, upgrade_typ
 upgrade2 = Upgrades("Upgrade 2", 60, 250, 250, 50, power=5, cost=50, upgrade_type="click")
 upgrade3 = Upgrades("Upgrade 3", 60, 350, 250, 50, power=15, cost=150, upgrade_type="click")
 upgrade4 = Upgrades("Upgrade 4", 60, 450, 250, 50, power=1000, cost=10_000, upgrade_type="click")
+upgrade5 = Upgrades("Upgrade 5", 60, 550, 250, 50, power =10_000, cost=100_000, upgrade_type="click")
+
+#auto upgrades

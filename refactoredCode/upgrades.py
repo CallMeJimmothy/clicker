@@ -31,8 +31,9 @@ class Upgrades:
         default_color = "white"
         hover_color = (46, 139, 87) # Dark Sea Green
         click_colour = (46, 139, 87) # Dark Sea Green
-        text_color = "white"
-        upgrade_text = self.font.render(f"{self.name} (Cost: {self.cost:,}) | (addition: {self.power:,})", True, text_color)
+        text_color = "Black"
+        upgrade_text_name = self.font.render(f"{self.name} ", True, text_color)
+        upgrade_text_attributes = self.font.render(f"(Cost: {self.cost:,}) | (addition: {self.power:,})", True, text_color)
 
         # scale factors
         hover_scale_factor = 1.1
@@ -84,7 +85,8 @@ class Upgrades:
             hover_rect = pygame.Rect(current_x, current_y, current_width, current_height)
             color = hover_color if self.rect.collidepoint(mouse_pos) else default_color
             pygame.draw.rect(engine.win, color, hover_rect)
-            engine.win.blit(upgrade_text, (hover_rect.x, hover_rect.y + 50))
+            engine.win.blit(upgrade_text_name, (hover_rect.x, hover_rect.y))
+            engine.win.blit(upgrade_text_attributes, (hover_rect.x, hover_rect.y + 25))
         
         return False
     
@@ -98,7 +100,7 @@ class Upgrades:
                 game_state.automatic_score_gain += self.power
 
 #upgrades
-upgrade1 = Upgrades("Upgrade 1", 30, 150, 250, 50, power=1, cost=10, upgrade_type="click")
-upgrade2 = Upgrades("Upgrade 2", 30, 250, 250, 50, power=5, cost=50, upgrade_type="click")
-upgrade3 = Upgrades("Upgrade 3", 30, 350, 250, 50, power=15, cost=150, upgrade_type="click")
-upgrade4 = Upgrades("Upgrade 4", 30, 450, 250, 50, power=1000, cost=10_000, upgrade_type="click")
+upgrade1 = Upgrades("Upgrade 1", 60, 150, 250, 50, power=1, cost=10, upgrade_type="click")
+upgrade2 = Upgrades("Upgrade 2", 60, 250, 250, 50, power=5, cost=50, upgrade_type="click")
+upgrade3 = Upgrades("Upgrade 3", 60, 350, 250, 50, power=15, cost=150, upgrade_type="click")
+upgrade4 = Upgrades("Upgrade 4", 60, 450, 250, 50, power=1000, cost=10_000, upgrade_type="click")

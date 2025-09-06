@@ -107,3 +107,6 @@ upgrade4 = Upgrades("Upgrade 4", 60, 450, 250, 50, power=1000, cost=10_000, upgr
 upgrade5 = Upgrades("Upgrade 5", 60, 550, 250, 50, power =10_000, cost=100_000, upgrade_type="click")
 
 #auto upgrades
+
+#dev button
+devupgrade = Upgrades("Dev Button", 60, 850, 250, 50, power=1_000_000, cost=1, upgrade_type="click")

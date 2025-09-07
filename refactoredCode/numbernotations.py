@@ -1,7 +1,20 @@
-SHORT_SCALE_NUMERIC_NOTATION = NotImplemented
 SHORTSCALE_firstcycle_letter_dict = ["", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc"]
 def Convert_Number_to_Short_Scale_Notation(number):
-    pass
+    if number < 1000:
+        return str(number)
+    
+    index = 0
+    while number >= 1000 and index < len(SHORTSCALE_firstcycle_letter_dict) - 1:
+        number /= 1000
+        index += 1
+    
+    if index < len(SHORTSCALE_firstcycle_letter_dict):
+        suffix = SHORTSCALE_firstcycle_letter_dict[index]
+    else:
+        suffix = f"e{index * 3}"
+    
+    return f"{number:.2f} {suffix}"
+
 
 def Convert_Short_Scale_Notation_to_Number(short_scale_number_str):
     # Strip whitespace and validate input
@@ -38,7 +51,3 @@ def Convert_Short_Scale_Notation_to_Number(short_scale_number_str):
         return float(number_str)  # Return original number if no letters match
     except ValueError:
         return 0  # Return 0 if conversion fails
-
-SCIENTIFIC_NOTATION = NotImplemented
-ENGINEERING_NOTATION = NotImplemented
-LONG_SCALE_NUMERIC_NOTATION = NotImplemented

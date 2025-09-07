@@ -3,6 +3,7 @@ import math
 from Constants import HEIGHT, WIDTH
 from engine import engine
 from gamestate import game_state
+from numbernotations import Convert_Number_to_Short_Scale_Notation
 
 class Upgrades:
     upgrades_instances = []
@@ -33,7 +34,8 @@ class Upgrades:
         click_colour = (46, 139, 87) # Dark Sea Green
         text_color = "Black"
         upgrade_text_name = self.font.render(f"{self.name} ", True, text_color)
-        upgrade_text_attributes = self.font.render(f"(Cost: {self.cost:,}) | (addition: {self.power:,})", True, text_color)
+        upgrade_text_cost = self.font.render(f"(Cost: {Convert_Number_to_Short_Scale_Notation(self.cost)})", True, text_color)
+        upgrade_text_power = self.font.render(f"(addition: {Convert_Number_to_Short_Scale_Notation(self.power)})", True, text_color)
 
         # scale factors
         hover_scale_factor = 1.1
@@ -86,7 +88,8 @@ class Upgrades:
             color = hover_color if self.rect.collidepoint(mouse_pos) else default_color
             pygame.draw.rect(engine.win, color, hover_rect)
             engine.win.blit(upgrade_text_name, (hover_rect.x, hover_rect.y))
-            engine.win.blit(upgrade_text_attributes, (hover_rect.x, hover_rect.y + 25))
+            engine.win.blit(upgrade_text_cost, (hover_rect.x, hover_rect.y + 25))
+            engine.win.blit(upgrade_text_power, (hover_rect.x, hover_rect.y + 50))
         
         return False
     
@@ -100,13 +103,13 @@ class Upgrades:
                 game_state.automatic_score_gain += self.power
 
 #upgrades
-upgrade1 = Upgrades("Upgrade 1", 60, 150, 250, 50, power=1, cost=10, upgrade_type="click")
-upgrade2 = Upgrades("Upgrade 2", 60, 250, 250, 50, power=5, cost=50, upgrade_type="click")
-upgrade3 = Upgrades("Upgrade 3", 60, 350, 250, 50, power=15, cost=150, upgrade_type="click")
-upgrade4 = Upgrades("Upgrade 4", 60, 450, 250, 50, power=1000, cost=10_000, upgrade_type="click")
-upgrade5 = Upgrades("Upgrade 5", 60, 550, 250, 50, power =10_000, cost=100_000, upgrade_type="click")
+upgrade1 = Upgrades("Upgrade 1", 200, 150, 150, 75, power=1, cost=10, upgrade_type="click")
+upgrade2 = Upgrades("Upgrade 2", 200, 250, 150, 75, power=5, cost=50, upgrade_type="click")
+upgrade3 = Upgrades("Upgrade 3", 200, 350, 150, 75, power=15, cost=150, upgrade_type="click")
+upgrade4 = Upgrades("Upgrade 4", 200, 450, 150, 75, power=1000, cost=10_000, upgrade_type="click")
+upgrade5 = Upgrades("Upgrade 5", 200, 550, 150, 75, power =10_000, cost=100_000, upgrade_type="click")
 
 #auto upgrades
 
 #dev button
-devupgrade = Upgrades("Dev Button", 60, 850, 250, 50, power=1_000_000, cost=1, upgrade_type="click")
+devupgrade = Upgrades("Dev Button", 60, 850, 250, 75, power=1_000_000, cost=1, upgrade_type="click")

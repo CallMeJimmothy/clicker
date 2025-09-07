@@ -3,10 +3,15 @@ import math
 from Constants import HEIGHT, WIDTH
 from engine import engine
 from gamestate import game_state
-from numbernotations import Convert_Number_to_Short_Scale_Notation
+from numbernotations import Convert_Number_to_Short_Scale_Notation, Convert_Short_Scale_Notation_to_Number
 
 class Upgrades:
+    
     upgrades_instances = []
+
+    animation_duration = 20  # Constant
+    hover_animation_speed = 0.1  # Constant
+
     def __init__(self, name , x, y, width, height, power, cost, upgrade_type):
         self.name = name
         self.rect = pygame.Rect(x, y, width, height)
@@ -17,15 +22,11 @@ class Upgrades:
         self.font = pygame.font.SysFont("Arial", 20)
         Upgrades.upgrades_instances.append(self)
 
-        # animation properties
+        #animation state
         self.is_animating = False
-        self.animation_duration = 20  # Duration of the animation in frames
         self.animation_time = 0
-
-        #hover animation properties
         self.current_scale = 1.0
         self.target_scale = 1.0
-        self.hover_animation_speed = 0.1
 
     def draw_upgrade(self, mouse_pos, mouse_pressed, clicked):
         # colours
@@ -113,3 +114,4 @@ upgrade5 = Upgrades("Upgrade 5", 200, 550, 150, 75, power =10_000, cost=100_000,
 
 #dev button
 devupgrade = Upgrades("Dev Button", 60, 850, 250, 75, power=1_000_000, cost=1, upgrade_type="click")
+devupgrade2 = Upgrades("Dev Button 2", 350, 850, 250, 75, power=Convert_Short_Scale_Notation_to_Number("10T"), cost=10, upgrade_type="click")

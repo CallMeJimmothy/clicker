@@ -47,11 +47,21 @@ def main():
                 game_state.clicked = True
                 game_state.score += game_state.new_score
 
+            #upgrade menu switcher
+            
+
             for upgrade in Upgrades.upgrades_instances:
-                if upgrade.upgrade_type == "click":
-                    if upgrade.draw_upgrade(game_state.mouse_pos, game_state.mouse_pressed, game_state.clicked):
-                        game_state.clicked = True
-                        upgrade.purchase_upgrade()
+                if game_state.upgradesmenu == "manual upgrades":
+                    if upgrade.upgrade_type == "click":
+                        if upgrade.draw_upgrade(game_state.mouse_pos, game_state.mouse_pressed, game_state.clicked):
+                            game_state.clicked = True
+                            upgrade.purchase_upgrade()
+
+                if game_state.upgradesmenu == "auto upgrades":
+                    if upgrade.upgrade_type == "auto":
+                        if upgrade.draw_upgrade(game_state.mouse_pos, game_state.mouse_pressed, game_state.clicked):
+                            game_state.clicked = True
+                            upgrade.purchased_upgrade()
 
         # if statement inside for start screen
         start_screen()

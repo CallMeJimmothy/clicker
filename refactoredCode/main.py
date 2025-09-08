@@ -11,7 +11,7 @@ from engine import engine
 from gamestate import game_state
 from StartScreen import start_screen
 from numbernotations import Convert_Number_to_Short_Scale_Notation, Convert_Short_Scale_Notation_to_Number
-from upgrademenubutton import upgrademenu_switcher_btn
+from upgrademenubutton import upgrademenu_switcher_button
 
 #--------------------------------------
 
@@ -49,7 +49,7 @@ def main():
                 game_state.score += game_state.new_score
 
             #upgrade menu switcher
-            upgrademenu_switcher_button
+            upgrademenu_switcher_button.draw_button(game_state.mouse_pos, game_state.mouse_pressed, game_state.clicked)
 
             for upgrade in Upgrades.upgrades_instances:
                 if game_state.upgradesmenu == "manual upgrades":

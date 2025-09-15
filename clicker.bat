@@ -1,6 +1,6 @@
 @echo off
 REM Change into refactoredCode, relative to this batch file
-cd /d "%~dp0refactoredCode\prep"
+cd /d "%~dp0Code\prep"
 
 REM Check if Python is installed
 python --version >nul 2>&1
@@ -36,7 +36,7 @@ if ERRORLEVEL 1 (
     uv pip install -r requirements.txt --system
 )
 
-cd /d "%~dp0refactoredCode"
+cd /d "%~dp0Code"
 
 REM Check if main.py exists
 if not exist main.py (

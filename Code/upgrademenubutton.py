@@ -27,7 +27,8 @@ class upgrademenu_switcher_btn:
         self.sizeY = sizeY
 
       def draw_button(self, mouse_pos, mouse_pressed, clicked):
-          print("drew /shrug")
+          default_colour = "white"
+          text_colour = "black"
 
 
 upgrademenu_switcher_button = upgrademenu_switcher_btn(20,100, 50, 100)

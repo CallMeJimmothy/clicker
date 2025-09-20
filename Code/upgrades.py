@@ -111,6 +111,11 @@ upgrade4 = Upgrades("Upgrade 4", 200, 450, 150, 75, power=1000, cost=10_000, upg
 upgrade5 = Upgrades("Upgrade 5", 200, 550, 150, 75, power =10_000, cost=100_000, upgrade_type="click")
 
 #auto upgrades
+auto_upgrade1 = Upgrades("Auto Clicker 1", 200, 150, 150, 75, power=1, cost=100, upgrade_type="auto")
+auto_upgrade2 = Upgrades("Auto Clicker 2", 200, 250, 150, 75, power=5, cost=500, upgrade_type="auto")
+auto_upgrade3 = Upgrades("Auto Clicker 3", 200, 350, 150, 75, power=25, cost=2500, upgrade_type="auto")
+auto_upgrade4 = Upgrades("Auto Clicker 4", 200, 450, 150, 75, power=100, cost=10000, upgrade_type="auto")
+auto_upgrade5 = Upgrades("Auto Clicker 5", 200, 550, 150, 75, power=500, cost=50000, upgrade_type="auto")
 
 #dev button
 devupgrade = Upgrades("Dev Button", 60, 850, 250, 75, power=1_000_000, cost=1, upgrade_type="click")

@@ -24,6 +24,8 @@ def main():
     clock = pygame.time.Clock()      
     clicker = Clicker(WIDTH // 2, HEIGHT // 2, 100)
     game_state.win_menu = "start screen"
+    auto_score_timer = 0
+    auto_score_interval = 1000  # Add automatic score every 1000ms (1 second)
 
     while running:
         delta_time = clock.tick(FPS) / 1000
@@ -34,6 +36,12 @@ def main():
         # Reset clicked state if mouse button is released
         if not game_state.mouse_pressed:
             game_state.clicked = False
+            
+        # Handle automatic score gain
+        auto_score_timer += delta_time * 1000  # Convert to milliseconds
+        if auto_score_timer >= auto_score_interval:
+            game_state.score += game_state.automatic_score_gain
+            auto_score_timer = 0
             
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -49,20 +57,26 @@ def main():
                 game_state.score += game_state.new_score
 
             #upgrade menu switcher
-            upgrademenu_switcher_button.draw_button(game_state.mouse_pos, game_state.mouse_pressed, game_state.clicked)
+            if upgrademenu_switcher_button.draw_button(game_state.mouse_pos, game_state.mouse_pressed, game_state.clicked):
+                game_state.clicked = True
+                # Switch between upgrade menus
+                if game_state.upgradesmenu == "Manual upgrades":
+                    game_state.upgradesmenu = "Automatic upgrades"
+                else:
+                    game_state.upgradesmenu = "Manual upgrades"
 
             for upgrade in Upgrades.upgrades_instances:
-                if game_state.upgradesmenu == "manual upgrades":
+                if game_state.upgradesmenu == "Manual upgrades":
                     if upgrade.upgrade_type == "click":
                         if upgrade.draw_upgrade(game_state.mouse_pos, game_state.mouse_pressed, game_state.clicked):
                             game_state.clicked = True
                             upgrade.purchase_upgrade()
 
-                if game_state.upgradesmenu == "auto upgrades":
+                if game_state.upgradesmenu == "Automatic upgrades":
                     if upgrade.upgrade_type == "auto":
                         if upgrade.draw_upgrade(game_state.mouse_pos, game_state.mouse_pressed, game_state.clicked):
                             game_state.clicked = True
-                            upgrade.purchased_upgrade()
+                            upgrade.purchase_upgrade()
 
         # if statement inside for start screen
         start_screen()
